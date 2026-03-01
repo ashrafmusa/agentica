@@ -1,6 +1,7 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/ashrafmusa/agentica/main/docs/assets/logo.png" alt="Agentica Logo" width="120" />
+<img src=D:\_Projects\Agentica\Logo.png
+ alt="Agentica Logo" width="120" />
 
 # Agentica v2
 
