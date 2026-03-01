@@ -1,0 +1,21 @@
+{
+  "name": "@agentica/mcp-server",
+  "version": "2.0.0",
+  "description": "Agentica v2 MCP Server — exposes ReasoningBank, Model Router, Memory, and Agent tools",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "stdio": "node server.js --stdio"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "js-yaml": "^4.1.0",
+    "zod": "^3.23.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "keywords": ["mcp", "agentica", "ai", "agents", "reasoning-bank"],
+  "license": "MIT"
+}

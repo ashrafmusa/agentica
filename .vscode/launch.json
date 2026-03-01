@@ -1,0 +1,47 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: ReasoningBank CLI",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/reasoning_bank.py",
+      "args": ["stats"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Python: Router CLI",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/router_cli.py",
+      "args": ["build a login system"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Node: MCP Server (stdio)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/mcp/server.js",
+      "cwd": "${workspaceFolder}/mcp",
+      "console": "integratedTerminal",
+      "runtimeArgs": [],
+      "env": {
+        "AGENTICA_ROOT": "${workspaceFolder}"
+      }
+    },
+    {
+      "name": "Node: Router JS",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": ["-e"],
+      "runtimeExecutable": "node",
+      "args": [
+        "const r = require('./router/router'); console.log(JSON.stringify(r.route({ task: 'build auth system', agentName: 'backend-specialist', skills: ['clean-code', 'api-patterns'] }), null, 2));"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    }
+  ]
+}

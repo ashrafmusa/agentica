@@ -1,0 +1,53 @@
+{
+  "name": "@agentica/kit",
+  "version": "2.0.0",
+  "description": "Agentica v2 — The self-learning AI agent kit for VS Code and GitHub Copilot. 20 specialist agents, Model Router, ReasoningBank, and MCP tools.",
+  "keywords": ["ai", "agents", "copilot", "mcp", "reasoning-bank", "model-router", "vscode", "github-copilot", "llm", "code-assistant"],
+  "homepage": "https://github.com/ashrafmusa/agentica",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ashrafmusa/agentica.git"
+  },
+  "license": "MIT",
+  "author": "Agentica Contributors",
+  "bin": {
+    "agentica": "./bin/agentica.js"
+  },
+  "scripts": {
+    "test": "python scripts/verify_all.py .",
+    "lint": "node scripts/lint-agents.js",
+    "setup": "powershell -ExecutionPolicy Bypass -File setup.ps1",
+    "mcp:start": "node mcp/server.js",
+    "mcp:dev": "node --watch mcp/server.js",
+    "bank:stats": "python scripts/reasoning_bank.py stats",
+    "bank:distill": "python scripts/distill_patterns.py",
+    "router:test": "node -e \"const r=require('./router/router'); console.log(JSON.stringify(r.route({task:'build a user dashboard',agentName:'frontend-specialist',skills:['clean-code','frontend-design']}),null,2))\""
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "js-yaml": "^4.1.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "files": [
+    "agents/",
+    "skills/",
+    "router/",
+    "mcp/",
+    "scripts/",
+    "schemas/",
+    "memory/reasoning-bank/decisions.json",
+    "memory/reasoning-bank/patterns.json",
+    "rules/",
+    "bin/",
+    "setup.ps1",
+    "install-to-project.ps1",
+    "requirements.txt",
+    "ARCHITECTURE.md",
+    "USAGE.md",
+    "HOW-TO-USE-ON-YOUR-PROJECT.md"
+  ]
+}

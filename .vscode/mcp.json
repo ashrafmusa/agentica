@@ -1,0 +1,12 @@
+{
+  "servers": {
+    "agentica": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["${workspaceFolder}/mcp/server.js"],
+      "env": {
+        "AGENTICA_ROOT": "${workspaceFolder}"
+      }
+    }
+  }
+}

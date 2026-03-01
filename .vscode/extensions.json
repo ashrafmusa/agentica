@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "GitHub.copilot",
+    "GitHub.copilot-chat",
+    "redhat.vscode-yaml",
+    "esbenp.prettier-vscode",
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "dbaeumer.vscode-eslint",
+    "yzhang.markdown-all-in-one",
+    "bierner.markdown-mermaid",
+    "mikestead.dotenv"
+  ]
+}
