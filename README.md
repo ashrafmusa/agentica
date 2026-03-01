@@ -1,7 +1,7 @@
 <div align="center">
 
-<img src=D:\_Projects\Agentica\Logo.png
- alt="Agentica Logo" width="120" />
+<img width="676" height="532" alt="Logo" src="https://github.com/user-attachments/assets/d27a494b-65ee-4265-9ae7-5aae4b5e6753" />
+
 
 # Agentica v2
 
