@@ -123,7 +123,7 @@ jobs:
 
       - name: Check JavaScript syntax
         run: |
-          for f in mcp/server.js mcp/tools/*.js router/*.js bin/agentica.js; do
+          for f in mcp/server.js mcp/tools/*.js router/*.js bin/AGENTICANA.js; do
             if [ -f "$f" ]; then
               node --check "$f" && echo "OK: $f" || { echo "FAIL: $f"; exit 1; }
             fi

@@ -1,17 +1,17 @@
 {
-  "name": "@agentica/kit",
+  "name": "@Agenticana/kit",
   "version": "2.0.0",
-  "description": "Agentica v2 — The self-learning AI agent kit for VS Code and GitHub Copilot. 20 specialist agents, Model Router, ReasoningBank, and MCP tools.",
+  "description": "Agenticana v2 — The self-learning AI agent kit for VS Code and GitHub Copilot. 20 specialist agents, Model Router, ReasoningBank, and MCP tools.",
   "keywords": ["ai", "agents", "copilot", "mcp", "reasoning-bank", "model-router", "vscode", "github-copilot", "llm", "code-assistant"],
-  "homepage": "https://github.com/ashrafmusa/agentica",
+  "homepage": "https://github.com/ashrafmusa/AGENTICANA",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ashrafmusa/agentica.git"
+    "url": "https://github.com/ashrafmusa/AGENTICANA.git"
   },
   "license": "MIT",
-  "author": "Agentica Contributors",
+  "author": "Agenticana Contributors",
   "bin": {
-    "agentica": "./bin/agentica.js"
+    "Agenticana": "./bin/AGENTICANA.js"
   },
   "scripts": {
     "test": "python scripts/verify_all.py .",

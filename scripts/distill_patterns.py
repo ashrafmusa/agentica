@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Agentica v2 — Pattern Distillation Script
+Agenticana v2 — Pattern Distillation Script
 Reads stored trajectories and decisions → clusters by task type → 
 extracts winning decision patterns → updates patterns.json
 
@@ -15,9 +15,9 @@ from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 
-AGENTICA_ROOT  = Path(__file__).parent.parent
-DECISIONS_FILE = AGENTICA_ROOT / "memory" / "reasoning-bank" / "decisions.json"
-TRAJECTORIES_DIR = AGENTICA_ROOT / "memory" / "trajectories"
+Agenticana_ROOT  = Path(__file__).parent.parent
+DECISIONS_FILE = Agenticana_ROOT / "memory" / "reasoning-bank" / "decisions.json"
+TRAJECTORIES_DIR = Agenticana_ROOT / "memory" / "trajectories"
 
 
 def load_bank() -> dict:
@@ -90,7 +90,7 @@ def distill_patterns(decisions: list[dict], min_frequency: int, min_success: flo
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Agentica Pattern Distillation")
+    parser = argparse.ArgumentParser(description="Agenticana Pattern Distillation")
     parser.add_argument("--min-frequency", type=int, default=2,
                         help="Minimum occurrences to form a pattern (default: 2)")
     parser.add_argument("--min-success", type=float, default=0.7,

@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 /**
- * Agentica v2 CLI — npx agentica init
+ * Agenticana v2 CLI — npx Agenticana init
  *
  * Usage:
- *   npx agentica init                          # install into current directory (lite)
- *   npx agentica init --path d:\Projects\App   # specific path
- *   npx agentica init --mode full              # with local memory + scripts
- *   npx agentica init --mode link              # create .code-workspace only
- *   agentica status                            # check MCP server & tool status
- *   agentica bank stats                        # ReasoningBank statistics
- *   agentica route "build a login page"        # test model routing
+ *   npx Agenticana init                          # install into current directory (lite)
+ *   npx Agenticana init --path d:\Projects\App   # specific path
+ *   npx Agenticana init --mode full              # with local memory + scripts
+ *   npx Agenticana init --mode link              # create .code-workspace only
+ *   Agenticana status                            # check MCP server & tool status
+ *   Agenticana bank stats                        # ReasoningBank statistics
+ *   Agenticana route "build a login page"        # test model routing
  */
 
 'use strict';
@@ -19,7 +19,7 @@ const fs   = require('fs');
 const path = require('path');
 
 const VERSION      = require('../package.json').version;
-const AGENTICA_DIR = path.join(__dirname, '..');
+const Agenticana_DIR = path.join(__dirname, '..');
 
 // ── ANSI color helpers ────────────────────────────────────────────────────────
 const c = {
@@ -43,7 +43,7 @@ const h1   = (msg) => log(`\n${c.bold}${c.cyan}${msg}${c.reset}\n`);
 function banner() {
   log(`
 ${c.cyan}${c.bold}  ╔═══════════════════════════════════════╗
-  ║        Agentica v${VERSION} CLI              ║
+  ║        Agenticana v${VERSION} CLI              ║
   ║  Self-learning AI agents for VS Code  ║
   ╚═══════════════════════════════════════╝${c.reset}
 `);
@@ -92,12 +92,12 @@ function deepMerge(target, source) {
 
 // ── Commands ──────────────────────────────────────────────────────────────────
 
-/** agentica init [--path <dir>] [--mode lite|full|link] */
+/** Agenticana init [--path <dir>] [--mode lite|full|link] */
 function cmdInit(args) {
   const pathArg = args['--path'] || args['-p'] || process.cwd();
   const mode    = args['--mode'] || args['-m'] || 'lite';
   const target  = path.resolve(pathArg);
-  const mcpServer = path.join(AGENTICA_DIR, 'mcp', 'server.js').replace(/\\/g, '/');
+  const mcpServer = path.join(Agenticana_DIR, 'mcp', 'server.js').replace(/\\/g, '/');
 
   if (!fs.existsSync(target)) {
     err(`Target directory not found: ${target}`);
@@ -107,7 +107,7 @@ function cmdInit(args) {
   const projectName = path.basename(target);
 
   banner();
-  log(`${c.bold}Installing Agentica v${VERSION} into:${c.reset} ${c.cyan}${target}${c.reset}`);
+  log(`${c.bold}Installing Agenticana v${VERSION} into:${c.reset} ${c.cyan}${target}${c.reset}`);
   log(`${c.bold}Mode:${c.reset} ${c.yellow}${mode}${c.reset}\n`);
 
   // ── LINK mode ───────────────────────────────────────────────────────────────
@@ -116,14 +116,14 @@ function cmdInit(args) {
     const wsContent = JSON.stringify({
       folders: [
         { name: projectName, path: target.replace(/\\/g, '/') },
-        { name: 'Agentica v2 (toolkit)', path: AGENTICA_DIR.replace(/\\/g, '/') },
+        { name: 'Agenticana v2 (toolkit)', path: Agenticana_DIR.replace(/\\/g, '/') },
       ],
       settings: {
         'github.copilot.chat.codeGeneration.useInstructionFiles': true,
       },
     }, null, 2);
 
-    const wsFile = path.join(AGENTICA_DIR, `${projectName}.code-workspace`);
+    const wsFile = path.join(Agenticana_DIR, `${projectName}.code-workspace`);
     fs.writeFileSync(wsFile, wsContent, 'utf8');
     ok(`Workspace: ${wsFile}`);
     log('');
@@ -134,7 +134,7 @@ function cmdInit(args) {
   // ── Shared: LITE + FULL ─────────────────────────────────────────────────────
   h1('[1/3] Copilot instructions...');
 
-  const copilotSrc  = path.join(AGENTICA_DIR, '.github', 'copilot-instructions.md');
+  const copilotSrc  = path.join(Agenticana_DIR, '.github', 'copilot-instructions.md');
   const copilotDest = path.join(target, '.github', 'copilot-instructions.md');
   if (copyFile(copilotSrc, copilotDest)) ok('copilot-instructions.md');
   else warn('copilot-instructions.md already exists — skipped');
@@ -144,11 +144,11 @@ function cmdInit(args) {
   // mcp.json
   const mcpConfig = {
     servers: {
-      agentica: {
+      Agenticana: {
         type: 'stdio',
         command: 'node',
         args: [mcpServer],
-        env: { AGENTICA_ROOT: AGENTICA_DIR.replace(/\\/g, '/') },
+        env: { Agenticana_ROOT: Agenticana_DIR.replace(/\\/g, '/') },
       },
     },
   };
@@ -170,13 +170,13 @@ function cmdInit(args) {
 
     // Scripts
     for (const script of ['reasoning_bank.py', 'router_cli.py', 'distill_patterns.py']) {
-      const src  = path.join(AGENTICA_DIR, 'scripts', script);
-      const dest = path.join(target, '.agentica', 'scripts', script);
+      const src  = path.join(Agenticana_DIR, 'scripts', script);
+      const dest = path.join(target, '.Agenticana', 'scripts', script);
       if (copyFile(src, dest)) ok(`scripts/${script}`);
     }
 
     // Local decisions.json (fresh)
-    const bankDest = path.join(target, '.agentica', 'memory', 'reasoning-bank', 'decisions.json');
+    const bankDest = path.join(target, '.Agenticana', 'memory', 'reasoning-bank', 'decisions.json');
     const bankInit = JSON.stringify({
       version: '2.0',
       description: `Project-local ReasoningBank for ${projectName}`,
@@ -186,20 +186,20 @@ function cmdInit(args) {
       decisions: [],
       patterns: [],
     }, null, 2);
-    if (writeFile(bankDest, bankInit)) ok('.agentica/memory/reasoning-bank/decisions.json');
+    if (writeFile(bankDest, bankInit)) ok('.Agenticana/memory/reasoning-bank/decisions.json');
 
     // Router config
-    const routerSrc  = path.join(AGENTICA_DIR, 'router', 'config.json');
-    const routerDest = path.join(target, '.agentica', 'router', 'config.json');
-    if (copyFile(routerSrc, routerDest)) ok('.agentica/router/config.json');
+    const routerSrc  = path.join(Agenticana_DIR, 'router', 'config.json');
+    const routerDest = path.join(target, '.Agenticana', 'router', 'config.json');
+    if (copyFile(routerSrc, routerDest)) ok('.Agenticana/router/config.json');
 
     // .gitignore append
     const gitignore = path.join(target, '.gitignore');
     if (fs.existsSync(gitignore)) {
       const existing = fs.readFileSync(gitignore, 'utf8');
-      if (!existing.includes('agentica')) {
-        fs.appendFileSync(gitignore, '\n# Agentica v2\n.agentica/memory/trajectories/\n.agentica/__pycache__/\n');
-        ok('.gitignore (appended .agentica rules)');
+      if (!existing.includes('Agenticana')) {
+        fs.appendFileSync(gitignore, '\n# Agenticana v2\n.Agenticana/memory/trajectories/\n.Agenticana/__pycache__/\n');
+        ok('.gitignore (appended .Agenticana rules)');
       }
     }
   } else {
@@ -209,12 +209,12 @@ function cmdInit(args) {
   // ── Summary ──────────────────────────────────────────────────────────────────
   log(`
 ${c.cyan}${c.bold}═══════════════════════════════════════${c.reset}
-${c.green}${c.bold}  ✅ Agentica installed into ${projectName}!${c.reset}
+${c.green}${c.bold}  ✅ Agenticana installed into ${projectName}!${c.reset}
 ${c.cyan}${c.bold}═══════════════════════════════════════${c.reset}
 
 ${c.bold}Next steps:${c.reset}
   ${c.gray}1.${c.reset} Open ${c.cyan}${target}${c.reset} in VS Code
-  ${c.gray}2.${c.reset} Copilot Chat (${c.yellow}Ctrl+Alt+I${c.reset}) → ${c.yellow}🔧 Tools${c.reset} → Enable ${c.cyan}"agentica"${c.reset}
+  ${c.gray}2.${c.reset} Copilot Chat (${c.yellow}Ctrl+Alt+I${c.reset}) → ${c.yellow}🔧 Tools${c.reset} → Enable ${c.cyan}"Agenticana"${c.reset}
   ${c.gray}3.${c.reset} Start working:
      ${c.gray}"@debugger the login returns 401"${c.reset}
      ${c.gray}"@frontend-specialist add a dashboard card"${c.reset}
@@ -222,10 +222,10 @@ ${c.bold}Next steps:${c.reset}
 `);
 }
 
-/** agentica status */
+/** Agenticana status */
 function cmdStatus() {
   banner();
-  h1('Agentica Health Check');
+  h1('Agenticana Health Check');
 
   // Node.js
   try {
@@ -240,12 +240,12 @@ function cmdStatus() {
   } catch { err('Python not found'); }
 
   // MCP deps
-  const mcpModules = path.join(AGENTICA_DIR, 'mcp', 'node_modules');
+  const mcpModules = path.join(Agenticana_DIR, 'mcp', 'node_modules');
   if (fs.existsSync(mcpModules)) ok('MCP server dependencies installed');
   else warn('MCP deps missing — run: cd mcp && npm install');
 
   // ReasoningBank
-  const bankFile = path.join(AGENTICA_DIR, 'memory', 'reasoning-bank', 'decisions.json');
+  const bankFile = path.join(Agenticana_DIR, 'memory', 'reasoning-bank', 'decisions.json');
   if (fs.existsSync(bankFile)) {
     try {
       const bank = JSON.parse(fs.readFileSync(bankFile, 'utf8'));
@@ -256,52 +256,52 @@ function cmdStatus() {
   // Tools check
   for (const tool of ['reasoning-bank-tools', 'router-tools', 'memory-tools', 'agent-tools']) {
     try {
-      require(path.join(AGENTICA_DIR, 'mcp', 'tools', tool));
+      require(path.join(Agenticana_DIR, 'mcp', 'tools', tool));
       ok(`mcp/tools/${tool}.js`);
     } catch (e) { err(`mcp/tools/${tool}.js: ${e.message}`); }
   }
 
   log('');
-  info(`Agentica root: ${AGENTICA_DIR}`);
-  info(`MCP server:    ${path.join(AGENTICA_DIR, 'mcp', 'server.js')}`);
+  info(`Agenticana root: ${Agenticana_DIR}`);
+  info(`MCP server:    ${path.join(Agenticana_DIR, 'mcp', 'server.js')}`);
   log('');
 }
 
-/** agentica bank [stats|distill|retrieve <query>] */
+/** Agenticana bank [stats|distill|retrieve <query>] */
 function cmdBank(args, rest) {
   const sub = rest[0] || 'stats';
   const pythonArgs = sub === 'retrieve'
     ? ['scripts/reasoning_bank.py', 'retrieve', rest.slice(1).join(' ')]
     : ['scripts/reasoning_bank.py', sub];
-  const result = spawnSync('python', pythonArgs, { cwd: AGENTICA_DIR, stdio: 'inherit' });
+  const result = spawnSync('python', pythonArgs, { cwd: Agenticana_DIR, stdio: 'inherit' });
   process.exit(result.status ?? 0);
 }
 
-/** agentica route "<task>" */
+/** Agenticana route "<task>" */
 function cmdRoute(args, rest) {
   const task = rest.join(' ');
-  if (!task) { err('Usage: agentica route "your task description"'); process.exit(1); }
-  const result = spawnSync('python', ['scripts/router_cli.py', task], { cwd: AGENTICA_DIR, stdio: 'inherit' });
+  if (!task) { err('Usage: Agenticana route "your task description"'); process.exit(1); }
+  const result = spawnSync('python', ['scripts/router_cli.py', task], { cwd: Agenticana_DIR, stdio: 'inherit' });
   process.exit(result.status ?? 0);
 }
 
-/** agentica help */
+/** Agenticana help */
 function cmdHelp() {
   banner();
   log(`${c.bold}Usage:${c.reset}
-  agentica init [--path <dir>] [--mode lite|full|link]
-  agentica status
-  agentica bank [stats|distill|retrieve <query>]
-  agentica route "<task description>"
-  agentica help
+  Agenticana init [--path <dir>] [--mode lite|full|link]
+  Agenticana status
+  Agenticana bank [stats|distill|retrieve <query>]
+  Agenticana route "<task description>"
+  Agenticana help
 
 ${c.bold}Examples:${c.reset}
-  ${c.gray}npx agentica init${c.reset}                         Install into current directory
-  ${c.gray}npx agentica init --mode full${c.reset}             Install with local memory
-  ${c.gray}npx agentica init --path d:\\Projects\\App${c.reset}  Install into specific project
-  ${c.gray}npx agentica bank retrieve "auth login"${c.reset}   Search ReasoningBank
-  ${c.gray}npx agentica route "build dashboard"${c.reset}      Get model routing recommendation
-  ${c.gray}npx agentica status${c.reset}                       Health check all components
+  ${c.gray}npx Agenticana init${c.reset}                         Install into current directory
+  ${c.gray}npx Agenticana init --mode full${c.reset}             Install with local memory
+  ${c.gray}npx Agenticana init --path d:\\Projects\\App${c.reset}  Install into specific project
+  ${c.gray}npx Agenticana bank retrieve "auth login"${c.reset}   Search ReasoningBank
+  ${c.gray}npx Agenticana route "build dashboard"${c.reset}      Get model routing recommendation
+  ${c.gray}npx Agenticana status${c.reset}                       Health check all components
 `);
 }
 
@@ -333,7 +333,7 @@ switch (command) {
   case 'route':   cmdRoute(args, rest); break;
   case '--version':
   case '-v':
-    log(`agentica v${VERSION}`); break;
+    log(`Agenticana v${VERSION}`); break;
   case 'help':
   case '--help':
   case '-h':

@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "description": "Agentica ReasoningBank — stores past agent decisions for pattern reuse",
+  "description": "Agenticana ReasoningBank — stores past agent decisions for pattern reuse",
   "last_consolidated": null,
   "total_decisions": 11,
   "decisions": [
@@ -207,8 +207,8 @@
       "task": "Open source GitHub release with npx CLI, CI/CD, README, CONTRIBUTING",
       "task_type": "user-recorded",
       "agent": "orchestrator",
-      "decision": "Package.json at root + bin/agentica.js CLI + .github/workflows/ci.yml + release.yml + README with competitor comparison table + CHANGELOG + CONTRIBUTING + .gitignore + git init",
-      "outcome": "Agentica v2 fully GitHub-ready: installable via npx, CI validates all agents/tools, release auto-publishes to npm",
+      "decision": "Package.json at root + bin/AGENTICANA.js CLI + .github/workflows/ci.yml + release.yml + README with competitor comparison table + CHANGELOG + CONTRIBUTING + .gitignore + git init",
+      "outcome": "Agenticana v2 fully GitHub-ready: installable via npx, CI validates all agents/tools, release auto-publishes to npm",
       "success": true,
       "tokens_used": 0,
       "model_used": "unknown",

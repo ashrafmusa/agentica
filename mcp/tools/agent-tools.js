@@ -1,5 +1,5 @@
 /**
- * Agentica MCP — Agent Tools
+ * Agenticana MCP — Agent Tools
  * Provides: agent_list, agent_get, skill_list
  */
 
@@ -21,14 +21,14 @@ function safeParseYaml(content) {
   return { raw: content };
 }
 
-function register(server, agenticaRoot) {
-  const agentsDir = path.join(agenticaRoot, 'agents');
-  const skillsDir = path.join(agenticaRoot, 'skills');
+function register(server, AgenticanaRoot) {
+  const agentsDir = path.join(AgenticanaRoot, 'agents');
+  const skillsDir = path.join(AgenticanaRoot, 'skills');
 
   // ── agent_list ─────────────────────────────────────────────────────────────
   server.tool(
     'agent_list',
-    'List all available Agentica agents with their metadata (model tier, complexity, capabilities).',
+    'List all available Agenticana agents with their metadata (model tier, complexity, capabilities).',
     {
       filter_tier: z.enum(['SIMPLE', 'MODERATE', 'COMPLEX', 'all']).default('all').describe('Filter by complexity tier'),
     },
@@ -88,7 +88,7 @@ function register(server, agenticaRoot) {
   // ── skill_list ─────────────────────────────────────────────────────────────
   server.tool(
     'skill_list',
-    'List all available Agentica skills, optionally filtered by tier (1=Core, 2=Domain, 3=Utility).',
+    'List all available Agenticana skills, optionally filtered by tier (1=Core, 2=Domain, 3=Utility).',
     {
       tier: z.number().int().min(1).max(3).optional().describe('Filter by tier: 1=Core, 2=Domain, 3=Utility'),
     },

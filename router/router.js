@@ -1,12 +1,12 @@
 /**
- * Agentica v2 — Model Router
+ * Agenticana v2 — Model Router
  * 
  * Main routing engine. Combines complexity score + token estimation
  * to produce a routing decision: { model, strategy, skills, estimatedTokens }
  * 
  * Usage:
  *   const router = require('./router');
- *   const decision = router.route({ task, agentName, skills, agenticaRoot });
+ *   const decision = router.route({ task, agentName, skills, AgenticanaRoot });
  *   console.log(decision);
  *   // { model: 'gemini-2.0-flash', tier: 'flash', strategy: 'COMPRESSED', estimatedTokens: 12400 }
  */
@@ -23,10 +23,10 @@ const config                                                           = require
  * @param {string}   params.agentName      - Agent to invoke (e.g. 'frontend-specialist')
  * @param {string[]} [params.skills]       - Skills the agent wants to load
  * @param {number}   [params.rb_similarity] - ReasoningBank similarity (0-1), reduces complexity if high
- * @param {string}   [params.agenticaRoot]  - Agentica root path
+ * @param {string}   [params.AgenticanaRoot]  - Agenticana root path
  * @returns {RouterDecision}
  */
-function route({ task, agentName, skills = [], rb_similarity = 0, agenticaRoot = process.cwd() }) {
+function route({ task, agentName, skills = [], rb_similarity = 0, AgenticanaRoot = process.cwd() }) {
   // ── Step 1: Score complexity ──────────────────────────────────────────────
   const { score, model_tier, breakdown: complexityBreakdown } = scoreComplexity(task, {
     reasoning_bank_similarity: rb_similarity,
@@ -38,7 +38,7 @@ function route({ task, agentName, skills = [], rb_similarity = 0, agenticaRoot =
     agentName,
     skills,
     model_tier,
-    agenticaRoot,
+    AgenticanaRoot,
   });
 
   // ── Step 3: Upgrade tier if token estimate exceeds budget ─────────────────
@@ -53,7 +53,7 @@ function route({ task, agentName, skills = [], rb_similarity = 0, agenticaRoot =
   }
 
   // ── Step 4: Filter skills to strategy ────────────────────────────────────
-  const filteredSkills = filterSkillsByStrategy(skills, fullEstimate.strategy, agenticaRoot);
+  const filteredSkills = filterSkillsByStrategy(skills, fullEstimate.strategy, AgenticanaRoot);
 
   // ── Step 5: Re-estimate with filtered skills ──────────────────────────────
   const finalEstimate = estimateInvocation({
@@ -61,7 +61,7 @@ function route({ task, agentName, skills = [], rb_similarity = 0, agenticaRoot =
     agentName,
     skills: filteredSkills,
     model_tier: finalTier,
-    agenticaRoot,
+    AgenticanaRoot,
   });
 
   // ── Step 6: Compose decision ──────────────────────────────────────────────

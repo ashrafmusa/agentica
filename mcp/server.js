@@ -1,7 +1,7 @@
 /**
- * Agentica v2 — MCP Server
+ * Agenticana v2 — MCP Server
  * 
- * Exposes Agentica capabilities as MCP tools usable in any MCP-compatible host.
+ * Exposes Agenticana capabilities as MCP tools usable in any MCP-compatible host.
  * Supports both stdio transport (Claude Desktop) and HTTP.
  * 
  * Tools exposed (11 total):
@@ -16,9 +16,9 @@
  * 
  * Claude Desktop config (~/.claude_desktop_config.json):
  *   "mcpServers": {
- *     "agentica": {
+ *     "Agenticana": {
  *       "command": "node",
- *       "args": ["path/to/Agentica/mcp/server.js"]
+ *       "args": ["path/to/AGENTICANA/mcp/server.js"]
  *     }
  *   }
  */
@@ -29,7 +29,7 @@ const { z } = require('zod');
 const path = require('path');
 const fs   = require('fs');
 
-const AGENTICA_ROOT = path.join(__dirname, '..');
+const Agenticana_ROOT = path.join(__dirname, '..');
 
 // ── Register all tool modules ─────────────────────────────────────────────────
 const reasoningBankTools = require('./tools/reasoning-bank-tools');
@@ -39,15 +39,15 @@ const agentTools         = require('./tools/agent-tools');
 
 // ── Create MCP Server ─────────────────────────────────────────────────────────
 const server = new McpServer({
-  name: 'agentica',
+  name: 'Agenticana',
   version: '2.0.0',
 });
 
 // ── Register tool groups ──────────────────────────────────────────────────────
-reasoningBankTools.register(server, AGENTICA_ROOT);
-routerTools.register(server, AGENTICA_ROOT);
-memoryTools.register(server, AGENTICA_ROOT);
-agentTools.register(server, AGENTICA_ROOT);
+reasoningBankTools.register(server, Agenticana_ROOT);
+routerTools.register(server, Agenticana_ROOT);
+memoryTools.register(server, Agenticana_ROOT);
+agentTools.register(server, Agenticana_ROOT);
 
 // ── Start transport ───────────────────────────────────────────────────────────
 async function main() {
@@ -55,13 +55,13 @@ async function main() {
 
   if (useHttp) {
     // HTTP transport (future: StreamableHTTP)
-    console.error('[Agentica MCP] HTTP transport not yet implemented, falling back to stdio');
+    console.error('[Agenticana MCP] HTTP transport not yet implemented, falling back to stdio');
   }
 
   // Default: stdio transport (works with Claude Desktop and Claude Code)
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error('[Agentica MCP] Server started on stdio. Tools:', [
+  console.error('[Agenticana MCP] Server started on stdio. Tools:', [
     ...reasoningBankTools.toolNames,
     ...routerTools.toolNames,
     ...memoryTools.toolNames,
@@ -70,6 +70,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error('[Agentica MCP] Fatal error:', err);
+  console.error('[Agenticana MCP] Fatal error:', err);
   process.exit(1);
 });

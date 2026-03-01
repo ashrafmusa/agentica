@@ -1,5 +1,5 @@
 /**
- * Agentica MCP — ReasoningBank Tools
+ * Agenticana MCP — ReasoningBank Tools
  * Provides: reasoningbank_retrieve, reasoningbank_record, reasoningbank_distill
  */
 
@@ -9,14 +9,14 @@ const path     = require('path');
 
 const toolNames = ['reasoningbank_retrieve', 'reasoningbank_record', 'reasoningbank_distill'];
 
-function register(server, agenticaRoot) {
-  const scriptPath = path.join(agenticaRoot, 'scripts', 'reasoning_bank.py');
+function register(server, AgenticanaRoot) {
+  const scriptPath = path.join(AgenticanaRoot, 'scripts', 'reasoning_bank.py');
 
   function runPython(args) {
     try {
       const result = execSync(`python "${scriptPath}" ${args}`, {
         encoding: 'utf-8',
-        cwd: agenticaRoot,
+        cwd: AgenticanaRoot,
         timeout: 30000,
       });
       return JSON.parse(result);

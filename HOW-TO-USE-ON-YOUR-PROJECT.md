@@ -1,6 +1,6 @@
-# Agentica v2 — Using With Your Own Projects
+# Agenticana v2 — Using With Your Own Projects
 
-## The 3 Ways to Use Agentica on Any Project
+## The 3 Ways to Use Agenticana on Any Project
 
 ---
 
@@ -8,7 +8,7 @@
 **Best for:** Any project. Quick plug-in. No setup needed on project side.
 
 ```powershell
-# From the Agentica folder:
+# From the Agenticana folder:
 .\install-to-project.ps1 -ProjectPath "d:\YourProject" -Mode lite
 ```
 
@@ -18,11 +18,11 @@ YourProject/
 ├── .github/
 │   └── copilot-instructions.md   ← Copilot knows all 20 agents
 └── .vscode/
-    ├── mcp.json                   ← Points to Agentica MCP server
+    ├── mcp.json                   ← Points to Agenticana MCP server
     └── settings.json              ← Copilot settings merged in
 ```
 
-Copilot Chat now knows all 20 agents and can call the 11 Agentica tools.
+Copilot Chat now knows all 20 agents and can call the 11 Agenticana tools.
 
 ---
 
@@ -34,21 +34,21 @@ Copilot Chat now knows all 20 agents and can call the 11 Agentica tools.
 .\install-to-project.ps1 -ProjectPath "d:\YourProject" -Mode link
 ```
 
-This creates `Agentica\YourProject.code-workspace`:
+This creates `Agenticana\YourProject.code-workspace`:
 ```json
 {
   "folders": [
     { "name": "YourProject", "path": "d:/YourProject" },
-    { "name": "Agentica v2 (toolkit)", "path": "d:/_Projects/Agentica" }
+    { "name": "Agenticana v2 (toolkit)", "path": "d:/_Projects/AGENTICANA" }
   ]
 }
 ```
 
 Open VS Code with:
 ```powershell
-code "d:\_Projects\Agentica\YourProject.code-workspace"
+code "d:\_Projects\Agenticana\YourProject.code-workspace"
 ```
-You see both your project AND Agentica side-by-side in the explorer.
+You see both your project AND Agenticana side-by-side in the explorer.
 
 ---
 
@@ -64,7 +64,7 @@ What gets added:
 YourProject/
 ├── .github/copilot-instructions.md
 ├── .vscode/mcp.json + settings.json
-└── .agentica/                        ← Project-local Agentica data
+└── .Agenticana/                        ← Project-local Agenticana data
     ├── scripts/                       ← reasoning_bank.py, router_cli.py
     ├── memory/reasoning-bank/
     │   └── decisions.json            ← Empty, grows with YOUR project's patterns
@@ -74,8 +74,8 @@ YourProject/
 Project-local usage:
 ```powershell
 # From YOUR project folder:
-python .agentica\scripts\reasoning_bank.py stats
-python .agentica\scripts\router_cli.py "fix the auth bug"
+python .Agenticana\scripts\reasoning_bank.py stats
+python .Agenticana\scripts\router_cli.py "fix the auth bug"
 ```
 
 ---
@@ -98,7 +98,7 @@ python .agentica\scripts\router_cli.py "fix the auth bug"
 
 ### Using MCP Tools in Copilot Chat
 
-After enabling Agentica tools (🔧 icon in Copilot Chat):
+After enabling Agenticana tools (🔧 icon in Copilot Chat):
 
 ```
 You: Check if we've built something like this before, then route the task.
@@ -123,15 +123,15 @@ Copilot: [calls reasoningbank_record] → ✅ Recorded with id rb-XXX
 **Scenario:** You're working on `d:\_Projects\HIS` (Hospital Information System)
 
 ```powershell
-# Step 1: Install Agentica into HIS (one time)
-cd d:\_Projects\Agentica
+# Step 1: Install Agenticana into HIS (one time)
+cd d:\_Projects\Agenticana
 .\install-to-project.ps1 -ProjectPath "d:\_Projects\HIS" -Mode full
 
 # Step 2: Open HIS in VS Code
 code "d:\_Projects\HIS"
 
 # Step 3: Enable MCP tools in Copilot Chat
-# Ctrl+Alt+I → 🔧 → Enable "agentica"
+# Ctrl+Alt+I → 🔧 → Enable "Agenticana"
 ```
 
 Now in VS Code on the HIS project:
@@ -175,7 +175,7 @@ Copilot:
 
 After installation, GitHub Copilot will:
 
-1. **Know all 20 Agentica agents** and pick the right one automatically
+1. **Know all 20 Agenticana agents** and pick the right one automatically
 2. **Call ReasoningBank** before planning (finds patterns from past work)
 3. **Route tasks** to the right model (saves tokens on simple tasks)
 4. **Follow the coding rules**: no purple colors, test coverage, clean code

@@ -1,5 +1,5 @@
 /**
- * Agentica MCP — Router Tools
+ * Agenticana MCP — Router Tools
  * Provides: router_route, router_stats
  */
 
@@ -9,14 +9,14 @@ const path         = require('path');
 
 const toolNames = ['router_route', 'router_stats'];
 
-function register(server, agenticaRoot) {
-  const scriptPath = path.join(agenticaRoot, 'scripts', 'router_cli.py');
+function register(server, AgenticanaRoot) {
+  const scriptPath = path.join(AgenticanaRoot, 'scripts', 'router_cli.py');
 
   function runRouter(args) {
     try {
       const result = execSync(`python "${scriptPath}" ${args}`, {
         encoding: 'utf-8',
-        cwd: agenticaRoot,
+        cwd: AgenticanaRoot,
         timeout: 15000,
       });
       return JSON.parse(result);

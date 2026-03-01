@@ -1,13 +1,13 @@
-# Agentica v2 Setup Script for Windows
+# Agenticana v2 Setup Script for Windows
 # Run this once to install all dependencies
 # Usage: Right-click → "Run with PowerShell" OR: powershell -ExecutionPolicy Bypass -File setup.ps1
 
 $ErrorActionPreference = "Stop"
-$AgenticaRoot = $PSScriptRoot
+$AgenticanaRoot = $PSScriptRoot
 
 Write-Host ""
 Write-Host "=====================================================" -ForegroundColor Cyan
-Write-Host "   Agentica v2 — Windows Setup" -ForegroundColor Cyan
+Write-Host "   Agenticana v2 — Windows Setup" -ForegroundColor Cyan
 Write-Host "=====================================================" -ForegroundColor Cyan
 Write-Host ""
 
@@ -34,7 +34,7 @@ try {
 
 # ── Step 3: Install MCP Server dependencies ───────────────────────────────────
 Write-Host "[3/5] Installing MCP Server dependencies..." -ForegroundColor Yellow
-$mcpDir = Join-Path $AgenticaRoot "mcp"
+$mcpDir = Join-Path $AgenticanaRoot "mcp"
 if (Test-Path $mcpDir) {
     Push-Location $mcpDir
     npm install --silent
@@ -46,7 +46,7 @@ if (Test-Path $mcpDir) {
 
 # ── Step 4: Install optional Python ML deps (sentence-transformers) ───────────
 Write-Host "[4/5] Installing Python dependencies (optional: sentence-transformers)..." -ForegroundColor Yellow
-$requirementsFile = Join-Path $AgenticaRoot "requirements.txt"
+$requirementsFile = Join-Path $AgenticanaRoot "requirements.txt"
 if (Test-Path $requirementsFile) {
     python -m pip install -r $requirementsFile --quiet
     Write-Host "  ✅ Python dependencies installed" -ForegroundColor Green
@@ -64,22 +64,22 @@ if (Test-Path $requirementsFile) {
 # ── Step 5: Generate VS Code workspace settings ───────────────────────────────
 Write-Host "[5/5] Configuring VS Code + GitHub Copilot MCP integration..." -ForegroundColor Yellow
 
-$vscodeDir = Join-Path $AgenticaRoot ".vscode"
+$vscodeDir = Join-Path $AgenticanaRoot ".vscode"
 if (-not (Test-Path $vscodeDir)) {
     New-Item -ItemType Directory -Path $vscodeDir | Out-Null
 }
 
-$mcpServerPath = Join-Path $AgenticaRoot "mcp\server.js"
+$mcpServerPath = Join-Path $AgenticanaRoot "mcp\server.js"
 $mcpConfigPath = Join-Path $vscodeDir "mcp.json"
 
 $mcpConfig = @{
     servers = @{
-        agentica = @{
+        Agenticana = @{
             type    = "stdio"
             command = "node"
             args    = @($mcpServerPath.Replace("\", "/"))
             env     = @{
-                AGENTICA_ROOT = $AgenticaRoot.Replace("\", "/")
+                Agenticana_ROOT = $AgenticanaRoot.Replace("\", "/")
             }
         }
     }
@@ -105,7 +105,7 @@ Write-Host "  • Start MCP Server (for Copilot tools):" -ForegroundColor Gray
 Write-Host "    cd mcp && node server.js" -ForegroundColor DarkCyan
 Write-Host ""
 Write-Host "  • VS Code Copilot integration:" -ForegroundColor Gray
-Write-Host "    Open VS Code → GitHub Copilot Chat → Tools icon → Enable 'agentica'" -ForegroundColor DarkCyan
+Write-Host "    Open VS Code → GitHub Copilot Chat → Tools icon → Enable 'Agenticana'" -ForegroundColor DarkCyan
 Write-Host ""
 Write-Host "  • Record a decision after completing a task:" -ForegroundColor Gray
 Write-Host "    python scripts/reasoning_bank.py record --task `"X`" --decision `"Y`" --outcome `"Z`" --success true" -ForegroundColor DarkCyan

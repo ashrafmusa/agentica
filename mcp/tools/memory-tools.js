@@ -1,5 +1,5 @@
 /**
- * Agentica v2 — MCP Memory Tools
+ * Agenticana v2 — MCP Memory Tools
  *
  * Tools:
  *   memory_store       — Write a key/value entry to persistent memory
@@ -17,21 +17,21 @@ const TOOL_NAMES = ['memory_store', 'memory_search', 'memory_consolidate'];
 /**
  * Resolve the project-aware memory file path.
  * Precedence:
- *   1. AGENTICA_MEMORY_FILE env var  (explicit override)
- *   2. .agentica/memory/memory.json  (project-local, if run from project dir)
- *   3. <AGENTICA_ROOT>/memory/memory.json  (global Agentica store)
+ *   1. Agenticana_MEMORY_FILE env var  (explicit override)
+ *   2. .Agenticana/memory/memory.json  (project-local, if run from project dir)
+ *   3. <Agenticana_ROOT>/memory/memory.json  (global Agenticana store)
  */
-function resolveMemoryFile(agenticaRoot) {
-  if (process.env.AGENTICA_MEMORY_FILE) {
-    return process.env.AGENTICA_MEMORY_FILE;
+function resolveMemoryFile(AgenticanaRoot) {
+  if (process.env.Agenticana_MEMORY_FILE) {
+    return process.env.Agenticana_MEMORY_FILE;
   }
   // Check for project-local store (cwd-relative)
-  const localStore = path.join(process.cwd(), '.agentica', 'memory', 'memory.json');
+  const localStore = path.join(process.cwd(), '.Agenticana', 'memory', 'memory.json');
   if (fs.existsSync(path.dirname(localStore))) {
     return localStore;
   }
-  // Fall back to global Agentica store
-  return path.join(agenticaRoot, 'memory', 'memory.json');
+  // Fall back to global Agenticana store
+  return path.join(AgenticanaRoot, 'memory', 'memory.json');
 }
 
 function loadMemory(filePath) {
@@ -58,9 +58,9 @@ function nowIso() {
 /**
  * Register all memory tools on an McpServer instance.
  * @param {import('@modelcontextprotocol/sdk/server/mcp.js').McpServer} server
- * @param {string} agenticaRoot
+ * @param {string} AgenticanaRoot
  */
-function register(server, agenticaRoot) {
+function register(server, AgenticanaRoot) {
   const { z } = require('zod');
 
   // ── memory_store ─────────────────────────────────────────────────────────────
@@ -75,7 +75,7 @@ function register(server, agenticaRoot) {
       overwrite: z.boolean().optional().describe('Overwrite if key already exists (default false)'),
     },
     async ({ key, value, tags = [], score = 1.0, overwrite = false }) => {
-      const filePath = resolveMemoryFile(agenticaRoot);
+      const filePath = resolveMemoryFile(AgenticanaRoot);
       const store    = loadMemory(filePath);
 
       const existingIdx = store.entries.findIndex((e) => e.key === key);
@@ -135,7 +135,7 @@ function register(server, agenticaRoot) {
       limit: z.number().int().min(1).max(50).optional().describe('Max results to return (default 10)'),
     },
     async ({ query, tags = [], limit = 10 }) => {
-      const filePath = resolveMemoryFile(agenticaRoot);
+      const filePath = resolveMemoryFile(AgenticanaRoot);
       const store    = loadMemory(filePath);
 
       if (!store.entries.length) {
@@ -203,7 +203,7 @@ function register(server, agenticaRoot) {
       dry_run:        z.boolean().optional().describe('Preview what would be removed without saving (default false)'),
     },
     async ({ max_entries = 500, min_score = 0.3, dry_run = false }) => {
-      const filePath = resolveMemoryFile(agenticaRoot);
+      const filePath = resolveMemoryFile(AgenticanaRoot);
       const store    = loadMemory(filePath);
 
       const before = store.entries.length;

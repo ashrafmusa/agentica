@@ -1,6 +1,6 @@
-# Agentica v2 — Complete Usage Guide
+# Agenticana v2 — Complete Usage Guide
 
-> Everything you need to know to use Agentica v2 on **Windows + VS Code + GitHub Copilot**.
+> Everything you need to know to use Agenticana v2 on **Windows + VS Code + GitHub Copilot**.
 
 ---
 
@@ -14,8 +14,8 @@
 
 ### Run Setup (One Time)
 ```powershell
-# Open PowerShell in the Agentica folder
-cd d:\_Projects\Agentica
+# Open PowerShell in the Agenticana folder
+cd d:\_Projects\Agenticana
 
 # Run the setup script
 powershell -ExecutionPolicy Bypass -File setup.ps1
@@ -30,9 +30,9 @@ This automatically:
 
 ## 2. Enabling in VS Code + GitHub Copilot
 
-### Step 1: Open Agentica as a Workspace
+### Step 1: Open Agenticana as a Workspace
 ```
-File → Open Folder → d:\_Projects\Agentica
+File → Open Folder → d:\_Projects\Agenticana
 ```
 VS Code will detect `.vscode/settings.json` automatically.
 
@@ -42,11 +42,11 @@ When prompted by VS Code, click **"Install All"** to install:
 - Red Hat YAML *(for agent YAML validation)*
 - Prettier, ESLint, Pylance
 
-### Step 3: Enable the Agentica MCP Tools in Copilot Chat
+### Step 3: Enable the Agenticana MCP Tools in Copilot Chat
 
 1. Open **Copilot Chat** (`Ctrl+Alt+I`)
 2. Click the **Tools icon (🔧 hammer)** in the chat input bar
-3. Find **"agentica"** in the list → toggle it **ON**
+3. Find **"Agenticana"** in the list → toggle it **ON**
 4. You'll see 11 tools available:
    - `reasoningbank_retrieve`, `reasoningbank_record`, `reasoningbank_distill`
    - `router_route`, `router_stats`
@@ -107,7 +107,7 @@ Or in Copilot Chat:
 
 ---
 
-## 4. Using Copilot Chat with Agentica Tools
+## 4. Using Copilot Chat with Agenticana Tools
 
 ### Example: Starting a New Feature
 ```
@@ -195,7 +195,7 @@ python scripts/distill_patterns.py --min-frequency 3 --min-success 0.8
 cd mcp
 npm install   # first time only
 node server.js
-# → [Agentica MCP] Server started on stdio. Tools: reasoningbank_retrieve, ...
+# → [Agenticana MCP] Server started on stdio. Tools: reasoningbank_retrieve, ...
 ```
 
 ---
@@ -276,7 +276,7 @@ The system gets smarter every time you record a decision.
 ## 10. File Structure Reference
 
 ```
-d:\_Projects\Agentica\
+d:\_Projects\Agenticana\
 ├── .github/
 │   └── copilot-instructions.md   ← Copilot reads this automatically
 ├── .vscode/
@@ -311,4 +311,4 @@ d:\_Projects\Agentica\
 
 ---
 
-*Agentica v2 — Built for Windows + VS Code + GitHub Copilot*
+*Agenticana v2 — Built for Windows + VS Code + GitHub Copilot*

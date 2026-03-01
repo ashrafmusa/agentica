@@ -1,4 +1,4 @@
-# Agentica v2 — Install to Any Project (Windows)
+# Agenticana v2 — Install to Any Project (Windows)
 #
 # Usage:
 #   powershell -ExecutionPolicy Bypass -File install-to-project.ps1 -ProjectPath "d:\path\to\myproject"
@@ -19,7 +19,7 @@ param(
     [string]$Mode = "lite"
 )
 
-$AgenticaRoot = $PSScriptRoot
+$AgenticanaRoot = $PSScriptRoot
 $ProjectPath  = (Resolve-Path $ProjectPath -ErrorAction SilentlyContinue)?.Path
 
 if (-not $ProjectPath -or -not (Test-Path $ProjectPath)) {
@@ -32,12 +32,12 @@ $ProjectName = Split-Path $ProjectPath -Leaf
 
 Write-Host ""
 Write-Host "================================================" -ForegroundColor Cyan
-Write-Host "  Agentica v2 → $ProjectName  [$Mode mode]" -ForegroundColor Cyan
+Write-Host "  Agenticana v2 → $ProjectName  [$Mode mode]" -ForegroundColor Cyan
 Write-Host "================================================" -ForegroundColor Cyan
 Write-Host ""
 
 # ── HELPER: Copy file with parent dir creation ─────────────────────────────────
-function Copy-AgenticaFile {
+function Copy-AgenticanaFile {
     param([string]$Src, [string]$Dest)
     $destDir = Split-Path $Dest -Parent
     if (-not (Test-Path $destDir)) { New-Item -ItemType Directory -Path $destDir | Out-Null }
@@ -54,27 +54,27 @@ function Copy-AgenticaFile {
 # ─────────────────────────────────────────────────────────────────────────────
 if ($Mode -eq "link") {
     Write-Host "[LINK MODE] Creating VS Code multi-root workspace..." -ForegroundColor Yellow
-    Write-Host "  This lets you use Agentica tools while working on $ProjectName" -ForegroundColor Gray
+    Write-Host "  This lets you use Agenticana tools while working on $ProjectName" -ForegroundColor Gray
     Write-Host ""
 
     $workspaceContent = @{
         folders = @(
             @{ name = $ProjectName; path = $ProjectPath },
-            @{ name = "Agentica v2 (toolkit)"; path = $AgenticaRoot }
+            @{ name = "Agenticana v2 (toolkit)"; path = $AgenticanaRoot }
         )
         settings = @{
             "github.copilot.chat.codeGeneration.useInstructionFiles" = $true
         }
     } | ConvertTo-Json -Depth 5
 
-    $workspaceFile = Join-Path $AgenticaRoot "$ProjectName.code-workspace"
+    $workspaceFile = Join-Path $AgenticanaRoot "$ProjectName.code-workspace"
     Set-Content $workspaceFile $workspaceContent -Encoding UTF8
     Write-Host "  ✅ Workspace file: $workspaceFile" -ForegroundColor Green
     Write-Host ""
     Write-Host "  → Open this in VS Code:" -ForegroundColor White
     Write-Host "    code `"$workspaceFile`"" -ForegroundColor DarkCyan
     Write-Host ""
-    Write-Host "  ℹ️  Copilot will see both your project AND Agentica tools." -ForegroundColor Gray
+    Write-Host "  ℹ️  Copilot will see both your project AND Agenticana tools." -ForegroundColor Gray
     exit 0
 }
 
@@ -84,23 +84,23 @@ if ($Mode -eq "link") {
 Write-Host "[1/3] Copying Copilot instructions..." -ForegroundColor Yellow
 
 # .github/copilot-instructions.md
-$copilotSrc  = Join-Path $AgenticaRoot ".github\copilot-instructions.md"
+$copilotSrc  = Join-Path $AgenticanaRoot ".github\copilot-instructions.md"
 $copilotDest = Join-Path $ProjectPath ".github\copilot-instructions.md"
-Copy-AgenticaFile $copilotSrc $copilotDest
+Copy-AgenticanaFile $copilotSrc $copilotDest
 
-# .vscode/mcp.json (with Agentica's MCP server path baked in)
+# .vscode/mcp.json (with Agenticana's MCP server path baked in)
 Write-Host "[2/3] Configuring VS Code MCP + settings..." -ForegroundColor Yellow
 $vscodeDir = Join-Path $ProjectPath ".vscode"
 if (-not (Test-Path $vscodeDir)) { New-Item -ItemType Directory -Path $vscodeDir | Out-Null }
 
-$mcpServerPath = Join-Path $AgenticaRoot "mcp\server.js"
+$mcpServerPath = Join-Path $AgenticanaRoot "mcp\server.js"
 $mcpConfig = @{
     servers = @{
-        agentica = @{
+        Agenticana = @{
             type    = "stdio"
             command = "node"
             args    = @($mcpServerPath.Replace("\", "/"))
-            env     = @{ AGENTICA_ROOT = $AgenticaRoot.Replace("\", "/") }
+            env     = @{ Agenticana_ROOT = $AgenticanaRoot.Replace("\", "/") }
         }
     }
 } | ConvertTo-Json -Depth 5
@@ -115,19 +115,19 @@ if (-not (Test-Path $mcpDest)) {
 
 # Merge VS Code settings (don't overwrite existing settings)
 $settingsDest = Join-Path $vscodeDir "settings.json"
-$agenticaSettings = @{
+$AgenticanaSettings = @{
     "github.copilot.chat.codeGeneration.useInstructionFiles" = $true
     "github.copilot.enable" = @{ "*" = $true }
 }
 if (Test-Path $settingsDest) {
     $existing = Get-Content $settingsDest | ConvertFrom-Json -AsHashtable -ErrorAction SilentlyContinue
     if ($existing) {
-        foreach ($key in $agenticaSettings.Keys) { $existing[$key] = $agenticaSettings[$key] }
+        foreach ($key in $AgenticanaSettings.Keys) { $existing[$key] = $AgenticanaSettings[$key] }
         $existing | ConvertTo-Json -Depth 5 | Set-Content $settingsDest -Encoding UTF8
-        Write-Host "  ✅ settings.json [merged Agentica keys]" -ForegroundColor Green
+        Write-Host "  ✅ settings.json [merged Agenticana keys]" -ForegroundColor Green
     }
 } else {
-    $agenticaSettings | ConvertTo-Json -Depth 5 | Set-Content $settingsDest -Encoding UTF8
+    $AgenticanaSettings | ConvertTo-Json -Depth 5 | Set-Content $settingsDest -Encoding UTF8
     Write-Host "  ✅ settings.json" -ForegroundColor Green
 }
 
@@ -135,18 +135,18 @@ if (Test-Path $settingsDest) {
 #  MODE: FULL — Also copy scripts + memory + router
 # ─────────────────────────────────────────────────────────────────────────────
 if ($Mode -eq "full") {
-    Write-Host "[3/3] Copying Agentica scripts, memory, and router..." -ForegroundColor Yellow
+    Write-Host "[3/3] Copying Agenticana scripts, memory, and router..." -ForegroundColor Yellow
 
     # scripts/
-    $scriptsDir = Join-Path $ProjectPath ".agentica\scripts"
+    $scriptsDir = Join-Path $ProjectPath ".Agenticana\scripts"
     if (-not (Test-Path $scriptsDir)) { New-Item -ItemType Directory -Path $scriptsDir | Out-Null }
-    Copy-Item (Join-Path $AgenticaRoot "scripts\reasoning_bank.py") (Join-Path $scriptsDir "reasoning_bank.py") -Force
-    Copy-Item (Join-Path $AgenticaRoot "scripts\router_cli.py")     (Join-Path $scriptsDir "router_cli.py")     -Force
-    Copy-Item (Join-Path $AgenticaRoot "scripts\distill_patterns.py") (Join-Path $scriptsDir "distill_patterns.py") -Force
-    Write-Host "  ✅ .agentica/scripts/ (reasoning_bank.py, router_cli.py, distill_patterns.py)" -ForegroundColor Green
+    Copy-Item (Join-Path $AgenticanaRoot "scripts\reasoning_bank.py") (Join-Path $scriptsDir "reasoning_bank.py") -Force
+    Copy-Item (Join-Path $AgenticanaRoot "scripts\router_cli.py")     (Join-Path $scriptsDir "router_cli.py")     -Force
+    Copy-Item (Join-Path $AgenticanaRoot "scripts\distill_patterns.py") (Join-Path $scriptsDir "distill_patterns.py") -Force
+    Write-Host "  ✅ .Agenticana/scripts/ (reasoning_bank.py, router_cli.py, distill_patterns.py)" -ForegroundColor Green
 
     # memory/
-    $memDir = Join-Path $ProjectPath ".agentica\memory\reasoning-bank"
+    $memDir = Join-Path $ProjectPath ".Agenticana\memory\reasoning-bank"
     if (-not (Test-Path $memDir)) { New-Item -ItemType Directory -Path $memDir | Out-Null }
     $emptyBank = @{
         version = "2.0"
@@ -159,25 +159,25 @@ if ($Mode -eq "full") {
     $bankDest = Join-Path $memDir "decisions.json"
     if (-not (Test-Path $bankDest)) {
         Set-Content $bankDest $emptyBank -Encoding UTF8
-        Write-Host "  ✅ .agentica/memory/reasoning-bank/decisions.json [fresh]" -ForegroundColor Green
+        Write-Host "  ✅ .Agenticana/memory/reasoning-bank/decisions.json [fresh]" -ForegroundColor Green
     } else {
         Write-Host "  ⏭️  decisions.json [already exists]" -ForegroundColor DarkGray
     }
 
     # router config
-    $routerDir = Join-Path $ProjectPath ".agentica\router"
+    $routerDir = Join-Path $ProjectPath ".Agenticana\router"
     if (-not (Test-Path $routerDir)) { New-Item -ItemType Directory -Path $routerDir | Out-Null }
-    Copy-Item (Join-Path $AgenticaRoot "router\config.json") (Join-Path $routerDir "config.json") -Force
-    Write-Host "  ✅ .agentica/router/config.json" -ForegroundColor Green
+    Copy-Item (Join-Path $AgenticanaRoot "router\config.json") (Join-Path $routerDir "config.json") -Force
+    Write-Host "  ✅ .Agenticana/router/config.json" -ForegroundColor Green
 
-    # Add .agentica to .gitignore memory folder (decisions grow and shouldn't be committed by default)
+    # Add .Agenticana to .gitignore memory folder (decisions grow and shouldn't be committed by default)
     $gitignorePath = Join-Path $ProjectPath ".gitignore"
-    $gitignoreEntry = "`n# Agentica v2 memory (optional: commit to share patterns with team)`n.agentica/memory/trajectories/"
+    $gitignoreEntry = "`n# Agenticana v2 memory (optional: commit to share patterns with team)`n.Agenticana/memory/trajectories/"
     if (Test-Path $gitignorePath) {
         $content = Get-Content $gitignorePath -Raw
-        if ($content -notmatch "agentica") {
+        if ($content -notmatch "Agenticana") {
             Add-Content $gitignorePath $gitignoreEntry
-            Write-Host "  ✅ .gitignore [added .agentica/memory/trajectories/]" -ForegroundColor Green
+            Write-Host "  ✅ .gitignore [added .Agenticana/memory/trajectories/]" -ForegroundColor Green
         }
     }
 } else {
@@ -187,14 +187,14 @@ if ($Mode -eq "full") {
 # ── Final Summary ──────────────────────────────────────────────────────────────
 Write-Host ""
 Write-Host "================================================" -ForegroundColor Cyan
-Write-Host "  ✅ Agentica v2 installed into $ProjectName!" -ForegroundColor Green
+Write-Host "  ✅ Agenticana v2 installed into $ProjectName!" -ForegroundColor Green
 Write-Host "================================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Next steps:" -ForegroundColor White
 Write-Host "  1. Open your project in VS Code:" -ForegroundColor Gray
 Write-Host "     code `"$ProjectPath`"" -ForegroundColor DarkCyan
 Write-Host ""
-Write-Host "  2. Open Copilot Chat (Ctrl+Alt+I) → 🔧 Tools → Enable 'agentica'" -ForegroundColor Gray
+Write-Host "  2. Open Copilot Chat (Ctrl+Alt+I) → 🔧 Tools → Enable 'Agenticana'" -ForegroundColor Gray
 Write-Host ""
 Write-Host "  3. Start working — example:" -ForegroundColor Gray
 Write-Host "     `"@debugger the /api/users endpoint returns 401`"" -ForegroundColor DarkCyan
@@ -203,6 +203,6 @@ Write-Host ""
 
 if ($Mode -eq "full") {
     Write-Host "  4. Use project-local ReasoningBank:" -ForegroundColor Gray
-    Write-Host "     python .agentica\scripts\reasoning_bank.py stats" -ForegroundColor DarkCyan
+    Write-Host "     python .Agenticana\scripts\reasoning_bank.py stats" -ForegroundColor DarkCyan
     Write-Host ""
 }

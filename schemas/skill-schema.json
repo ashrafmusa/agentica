@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "agentica/skill-schema",
-  "title": "Agentica Skill Specification",
-  "description": "Schema for SKILL.md frontmatter in Agentica v2",
+  "$id": "Agenticana/skill-schema",
+  "title": "Agenticana Skill Specification",
+  "description": "Schema for SKILL.md frontmatter in Agenticana v2",
   "type": "object",
   "required": ["name", "tier", "token_cost"],
   "properties": {

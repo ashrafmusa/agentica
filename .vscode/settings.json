@@ -32,7 +32,7 @@
   "github.copilot.chat.codeGeneration.useInstructionFiles": true,
   "github.copilot.chat.codeGeneration.instructions": [
     {
-      "text": "This workspace uses the Agentica v2 agent kit. You have access to 20 specialist agents (orchestrator, frontend-specialist, backend-specialist, mobile-developer, database-architect, debugger, security-auditor, devops-engineer, test-engineer, qa-automation-engineer, explorer-agent, code-archaeologist, documentation-writer, performance-optimizer, penetration-tester, game-developer, seo-specialist, product-manager, product-owner, project-planner). Always use the Agentica MCP tools when available: use 'reasoningbank_retrieve' before planning, 'router_route' before coding, and 'reasoningbank_record' after completing tasks."
+      "text": "This workspace uses the Agenticana v2 agent kit. You have access to 20 specialist agents (orchestrator, frontend-specialist, backend-specialist, mobile-developer, database-architect, debugger, security-auditor, devops-engineer, test-engineer, qa-automation-engineer, explorer-agent, code-archaeologist, documentation-writer, performance-optimizer, penetration-tester, game-developer, seo-specialist, product-manager, product-owner, project-planner). Always use the Agenticana MCP tools when available: use 'reasoningbank_retrieve' before planning, 'router_route' before coding, and 'reasoningbank_record' after completing tasks."
     },
     {
       "text": "Code style rules: No purple/violet colors in UI. No generic layouts or standard templates. Always use the clean-code skill principles: concise, self-documenting, no over-engineering. Test coverage is mandatory using AAA pattern."
@@ -44,7 +44,7 @@
 
   // ── MCP Server ──────────────────────────────────────────────────────────────
   // The MCP server config is in .vscode/mcp.json
-  // To enable: Copilot Chat → Tools (hammer icon) → Enable 'agentica'
+  // To enable: Copilot Chat → Tools (hammer icon) → Enable 'Agenticana'
 
   // ── YAML Schema Validation ──────────────────────────────────────────────────
   "yaml.schemas": {

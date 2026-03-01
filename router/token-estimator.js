@@ -1,5 +1,5 @@
 /**
- * Agentica v2 — Token Estimator
+ * Agenticana v2 — Token Estimator
  * 
  * Pre-flight token estimation before any agent invocation.
  * Prevents context overflow and triggers compression when needed.
@@ -30,11 +30,11 @@ function estimateTokens(text) {
 /**
  * Estimate size of a skill file in tokens
  * @param {string} skillName - Name of the skill folder
- * @param {string} agenticaRoot - Root path of Agentica directory
+ * @param {string} AgenticanaRoot - Root path of Agenticana directory
  * @returns {number}
  */
-function estimateSkillTokens(skillName, agenticaRoot = process.cwd()) {
-  const skillPath = path.join(agenticaRoot, 'skills', skillName, 'SKILL.md');
+function estimateSkillTokens(skillName, AgenticanaRoot = process.cwd()) {
+  const skillPath = path.join(AgenticanaRoot, 'skills', skillName, 'SKILL.md');
   try {
     const content = fs.readFileSync(skillPath, 'utf-8');
     return estimateTokens(content) + SKILL_OVERHEAD;
@@ -46,11 +46,11 @@ function estimateSkillTokens(skillName, agenticaRoot = process.cwd()) {
 /**
  * Estimate size of an agent context file in tokens
  * @param {string} agentName
- * @param {string} agenticaRoot
+ * @param {string} AgenticanaRoot
  * @returns {number}
  */
-function estimateAgentTokens(agentName, agenticaRoot = process.cwd()) {
-  const agentPath = path.join(agenticaRoot, 'agents', `${agentName}.md`);
+function estimateAgentTokens(agentName, AgenticanaRoot = process.cwd()) {
+  const agentPath = path.join(AgenticanaRoot, 'agents', `${agentName}.md`);
   try {
     const content = fs.readFileSync(agentPath, 'utf-8');
     return estimateTokens(content);
@@ -66,23 +66,23 @@ function estimateAgentTokens(agentName, agenticaRoot = process.cwd()) {
  * @param {string} params.agentName - Primary agent to invoke
  * @param {string[]} params.skills - Skills to load
  * @param {string} params.model_tier - Target model tier
- * @param {string} [params.agenticaRoot] - Root path
+ * @param {string} [params.AgenticanaRoot] - Root path
  * @returns {{ estimated_tokens: number, budget: number, strategy: string, breakdown: object, over_budget: boolean }}
  */
-function estimateInvocation({ task, agentName, skills = [], model_tier = 'pro', agenticaRoot = process.cwd() }) {
+function estimateInvocation({ task, agentName, skills = [], model_tier = 'pro', AgenticanaRoot = process.cwd() }) {
   const breakdown = {};
 
   // Task tokens
   breakdown.task = estimateTokens(task);
 
   // Agent context tokens
-  breakdown.agent_context = estimateAgentTokens(agentName, agenticaRoot);
+  breakdown.agent_context = estimateAgentTokens(agentName, AgenticanaRoot);
 
   // Skills tokens
   breakdown.skills = {};
   let skillTotal = 0;
   for (const skill of skills) {
-    const t = estimateSkillTokens(skill, agenticaRoot);
+    const t = estimateSkillTokens(skill, AgenticanaRoot);
     breakdown.skills[skill] = t;
     skillTotal += t;
   }
@@ -120,10 +120,10 @@ function estimateInvocation({ task, agentName, skills = [], model_tier = 'pro', 
  * Get skills for a given context strategy and tier
  * @param {string[]} requestedSkills - All skills an agent might want
  * @param {string} strategy - FULL | COMPRESSED | MINIMAL
- * @param {string} agenticaRoot
+ * @param {string} AgenticanaRoot
  * @returns {string[]} - Filtered list of skills to actually load
  */
-function filterSkillsByStrategy(requestedSkills, strategy, agenticaRoot = process.cwd()) {
+function filterSkillsByStrategy(requestedSkills, strategy, AgenticanaRoot = process.cwd()) {
   const strategyConfig = config.context_strategies[strategy];
   if (!strategyConfig) return requestedSkills;
 

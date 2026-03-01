@@ -1,6 +1,6 @@
-# Contributing to Agentica v2
+# Contributing to Agenticana v2
 
-Thank you for your interest in contributing! Agentica is built by developers for developers — every contribution makes the kit smarter.
+Thank you for your interest in contributing! Agenticana is built by developers for developers — every contribution makes the kit smarter.
 
 ## 🗺️ What You Can Contribute
 
@@ -18,8 +18,8 @@ Thank you for your interest in contributing! Agentica is built by developers for
 ## 🚀 Getting Started
 
 ```bash
-git clone https://github.com/ashrafmusa/agentica.git
-cd agentica
+git clone https://github.com/ashrafmusa/AGENTICANA.git
+cd Agenticana
 
 # Install all dependencies
 powershell -ExecutionPolicy Bypass -File setup.ps1   # Windows
@@ -188,4 +188,4 @@ We follow [Semantic Versioning](https://semver.org/):
 
 ## 💬 Questions?
 
-Open an [issue](https://github.com/ashrafmusa/agentica/issues) with the `question` label.
+Open an [issue](https://github.com/ashrafmusa/AGENTICANA/issues) with the `question` label.

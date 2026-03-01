@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Agentica v2 — ReasoningBank CLI
+Agenticana v2 — ReasoningBank CLI
 Stores and retrieves past agent decisions using cosine similarity.
 
 Usage:
@@ -19,9 +19,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
-AGENTICA_ROOT  = Path(__file__).parent.parent
-DECISIONS_FILE = AGENTICA_ROOT / "memory" / "reasoning-bank" / "decisions.json"
-PATTERNS_FILE  = AGENTICA_ROOT / "memory" / "reasoning-bank" / "patterns.json"
+Agenticana_ROOT  = Path(__file__).parent.parent
+DECISIONS_FILE = Agenticana_ROOT / "memory" / "reasoning-bank" / "decisions.json"
+PATTERNS_FILE  = Agenticana_ROOT / "memory" / "reasoning-bank" / "patterns.json"
 
 # ── Simple Text Embedding (TF-based, no external deps) ────────────────────────
 def simple_embed(text: str) -> list[float]:
@@ -257,7 +257,7 @@ def cmd_stats() -> None:
 def main():
     parser = argparse.ArgumentParser(
         prog="reasoning_bank.py",
-        description="Agentica v2 ReasoningBank CLI"
+        description="Agenticana v2 ReasoningBank CLI"
     )
     sub = parser.add_subparsers(dest="command", required=True)
 

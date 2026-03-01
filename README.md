@@ -3,7 +3,7 @@
 <img width="676" height="532" alt="Logo" src="https://github.com/user-attachments/assets/d27a494b-65ee-4265-9ae7-5aae4b5e6753" />
 
 
-# Agentica v2
+# Agenticana v2
 
 ### The Self-Learning AI Agent Kit for VS Code & GitHub Copilot
 
@@ -12,7 +12,7 @@
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](https://python.org)
 [![MCP](https://img.shields.io/badge/MCP-Compatible-purple.svg)](https://modelcontextprotocol.io)
 [![VS Code](https://img.shields.io/badge/VS%20Code-GitHub%20Copilot-blue.svg)](https://code.visualstudio.com)
-[![GitHub Stars](https://img.shields.io/github/stars/ashrafmusa/agentica?style=social)](https://github.com/ashrafmusa/agentica)
+[![GitHub Stars](https://img.shields.io/github/stars/ashrafmusa/AGENTICANA?style=social)](https://github.com/ashrafmusa/AGENTICANA)
 
 **20 specialist agents · ReasoningBank · Model Router · MCP Server · Self-Learning**
 
@@ -22,13 +22,13 @@
 
 ---
 
-## What Is Agentica?
+## What Is Agenticana?
 
-Agentica is a **production-grade AI agent kit** that plugs into VS Code and GitHub Copilot. It gives your AI assistant a **persistent memory**, **intelligent model routing**, and **20 specialist agents** that know your exact codebase patterns — getting smarter every time you use it.
+Agenticana is a **production-grade AI agent kit** that plugs into VS Code and GitHub Copilot. It gives your AI assistant a **persistent memory**, **intelligent model routing**, and **20 specialist agents** that know your exact codebase patterns — getting smarter every time you use it.
 
 ```
-Before Agentica:  Generic Copilot response → same answer every time
-After Agentica:   "Found similar pattern (similarity: 0.91). Reusing the auth decision from 2 weeks ago..."
+Before Agenticana:  Generic Copilot response → same answer every time
+After Agenticana:   "Found similar pattern (similarity: 0.91). Reusing the auth decision from 2 weeks ago..."
 ```
 
 ---
@@ -36,7 +36,7 @@ After Agentica:   "Found similar pattern (similarity: 0.91). Reusing the auth de
 ## ✨ Features
 
 ### 🧠 ReasoningBank — AI That Learns From Your Work
-Store past decisions as searchable vector memory. Next time you face a similar problem, Agentica finds the pattern and **skips re-planning entirely** (Fast Path).
+Store past decisions as searchable vector memory. Next time you face a similar problem, Agenticana finds the pattern and **skips re-planning entirely** (Fast Path).
 
 ```bash
 # After solving a problem:
@@ -78,10 +78,10 @@ Works with **VS Code + GitHub Copilot**, **Claude Desktop**, **Cursor**, and any
 // .vscode/mcp.json
 {
   "servers": {
-    "agentica": {
+    "Agenticana": {
       "type": "stdio",
       "command": "node",
-      "args": ["path/to/agentica/mcp/server.js"]
+      "args": ["path/to/AGENTICANA/mcp/server.js"]
     }
   }
 }
@@ -91,9 +91,9 @@ Works with **VS Code + GitHub Copilot**, **Claude Desktop**, **Cursor**, and any
 Install into any project in 30 seconds. Each project gets its own learning memory.
 
 ```bash
-npx agentica init                              # current directory
-npx agentica init --path d:\Projects\MyApp    # specific project
-npx agentica init --mode full                  # with local memory
+npx Agenticana init                              # current directory
+npx Agenticana init --path d:\Projects\MyApp    # specific project
+npx Agenticana init --mode full                  # with local memory
 ```
 
 ---
@@ -108,16 +108,16 @@ npx agentica init --mode full                  # with local memory
 ### Option A: npx (Recommended)
 ```bash
 # Install into your current project
-npx agentica init
+npx Agenticana init
 
 # Or into a specific project
-npx agentica init --path /path/to/your/project --mode full
+npx Agenticana init --path /path/to/your/project --mode full
 ```
 
 ### Option B: Clone & Setup
 ```bash
-git clone https://github.com/ashrafmusa/agentica.git
-cd agentica
+git clone https://github.com/ashrafmusa/AGENTICANA.git
+cd Agenticana
 
 # Windows
 powershell -ExecutionPolicy Bypass -File setup.ps1
@@ -129,7 +129,7 @@ chmod +x setup.sh && ./setup.sh
 ### Activate in VS Code
 1. Open your project in VS Code
 2. Open Copilot Chat (`Ctrl+Alt+I`)
-3. Click **🔧 Tools** icon → Enable **"agentica"**
+3. Click **🔧 Tools** icon → Enable **"Agenticana"**
 4. Start using agents:
 
 ```
@@ -169,7 +169,7 @@ chmod +x setup.sh && ./setup.sh
 
 ## 📊 vs. Competitors
 
-| Feature | **Agentica v2** | Cursor Rules | Continue.dev | Cline | claude-flows |
+| Feature | **Agenticana v2** | Cursor Rules | Continue.dev | Cline | claude-flows |
 |---------|:-----------:|:------------:|:------------:|:-----:|:------------:|
 | Persistent memory | ✅ ReasoningBank | ❌ | ❌ | ❌ | ❌ |
 | Self-learning | ✅ Pattern distillation | ❌ | ❌ | ❌ | ❌ |
@@ -177,7 +177,7 @@ chmod +x setup.sh && ./setup.sh
 | Specialist agents | ✅ 20 agents | ❌ Single | ❌ Single | ❌ Single | ⚠️ Basic |
 | MCP server | ✅ 11 tools | ❌ | ⚠️ Limited | ❌ | ❌ |
 | VS Code + Copilot | ✅ Deep integration | ⚠️ Cursor only | ✅ | ⚠️ | ❌ |
-| Per-project memory | ✅ `.agentica/` | ❌ | ❌ | ❌ | ❌ |
+| Per-project memory | ✅ `.Agenticana/` | ❌ | ❌ | ❌ | ❌ |
 | Team knowledge sync | ✅ via git | ❌ | ❌ | ❌ | ❌ |
 | Token optimization | ✅ ~40% savings | ❌ | ❌ | ❌ | ❌ |
 | YAML agent specs | ✅ Schema-validated | ❌ | ❌ | ❌ | ❌ |
@@ -191,7 +191,7 @@ chmod +x setup.sh && ./setup.sh
 ```mermaid
 graph TD
     USER[👤 Developer] --> COPILOT[GitHub Copilot Chat]
-    COPILOT --> MCP[Agentica MCP Server\n11 tools]
+    COPILOT --> MCP[Agenticana MCP Server\n11 tools]
 
     MCP --> RB[🧠 ReasoningBank\nretrieve · record · distill]
     MCP --> ROUTER[⚡ Model Router\nroute · stats]
@@ -300,12 +300,12 @@ mkdir skills/your-skill
 
 ## 📄 License
 
-MIT © [Agentica Contributors](LICENSE)
+MIT © [Agenticana Contributors](LICENSE)
 
 ---
 
 <div align="center">
 
-**Made with ❤️ using Agentica — [⭐ Star on GitHub](https://github.com/ashrafmusa/agentica)**
+**Made with ❤️ using Agenticana — [⭐ Star on GitHub](https://github.com/ashrafmusa/AGENTICANA)**
 
 </div>

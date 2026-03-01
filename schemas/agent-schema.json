@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "agentica/agent-schema",
-  "title": "Agentica Agent Specification",
-  "description": "Schema for structured agent YAML definitions in Agentica v2",
+  "$id": "Agenticana/agent-schema",
+  "title": "Agenticana Agent Specification",
+  "description": "Schema for structured agent YAML definitions in Agenticana v2",
   "type": "object",
   "required": ["name", "version", "model_tier", "complexity_tier", "skills", "capabilities"],
   "properties": {

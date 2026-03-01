@@ -26,7 +26,7 @@ assignees: ''
 -
 
 ## Suggested Skills
-<!-- Which existing Agentica skills should this agent use? -->
+<!-- Which existing Agenticana skills should this agent use? -->
 
 ## Example Interaction
 ```

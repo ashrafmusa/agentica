@@ -1,5 +1,5 @@
 /**
- * Agentica v2 — Complexity Scorer
+ * Agenticana v2 — Complexity Scorer
  * 
  * Scores a task description from 1-10 to determine model tier:
  *   1-2 → lite (trivial tasks)

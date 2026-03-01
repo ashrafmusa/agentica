@@ -28,7 +28,7 @@
       "console": "integratedTerminal",
       "runtimeArgs": [],
       "env": {
-        "AGENTICA_ROOT": "${workspaceFolder}"
+        "Agenticana_ROOT": "${workspaceFolder}"
       }
     },
     {

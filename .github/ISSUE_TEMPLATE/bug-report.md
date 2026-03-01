@@ -13,7 +13,7 @@ assignees: ''
 - [ ] Model Router (`scripts/router_cli.py`)
 - [ ] Agent definition (`agents/*.yaml`)
 - [ ] Skill (`skills/*/SKILL.md`)
-- [ ] CLI (`bin/agentica.js`)
+- [ ] CLI (`bin/AGENTICANA.js`)
 - [ ] VS Code integration
 - [ ] Other
 
@@ -36,4 +36,4 @@ assignees: ''
 - Node.js version:
 - Python version:
 - VS Code version:
-- Agentica version: v2.0.0
+- Agenticana version: v2.0.0

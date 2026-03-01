@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Agentica v2 — Model Router CLI
+Agenticana v2 — Model Router CLI
 Python bridge to call the Node.js Model Router from GEMINI.md and scripts.
 
 Usage:
@@ -15,8 +15,8 @@ import subprocess
 import sys
 from pathlib import Path
 
-AGENTICA_ROOT = Path(__file__).parent.parent
-ROUTER_JS     = AGENTICA_ROOT / "router" / "router.js"
+Agenticana_ROOT = Path(__file__).parent.parent
+ROUTER_JS     = Agenticana_ROOT / "router" / "router.js"
 
 
 def call_router(task: str, agent: str = "orchestrator", skills: list[str] | None = None,
@@ -31,7 +31,7 @@ const decision = router.route({{
   agentName: {json.dumps(agent)},
   skills: {json.dumps(skills_list)},
   rb_similarity: {rb_similarity},
-  agenticaRoot: {json.dumps(str(AGENTICA_ROOT).replace(chr(92), '/'))},
+  AgenticanaRoot: {json.dumps(str(Agenticana_ROOT).replace(chr(92), '/'))},
 }});
 router.recordStats(decision);
 console.log(JSON.stringify(decision, null, 2));
@@ -41,14 +41,14 @@ console.log(JSON.stringify(decision, null, 2));
         result = subprocess.run(
             ["node", "--input-type=module", "-e", node_script],
             capture_output=True, text=True, timeout=15,
-            cwd=str(AGENTICA_ROOT)
+            cwd=str(Agenticana_ROOT)
         )
         # Try CommonJS if module mode fails
         if result.returncode != 0:
             result = subprocess.run(
                 ["node", "-e", node_script.replace("require(", "require(")],
                 capture_output=True, text=True, timeout=15,
-                cwd=str(AGENTICA_ROOT)
+                cwd=str(Agenticana_ROOT)
             )
         if result.returncode != 0:
             return {"error": result.stderr.strip(), "fallback": True, **_fallback_route(task)}
@@ -90,7 +90,7 @@ def _fallback_route(task: str) -> dict:
 def main():
     parser = argparse.ArgumentParser(
         prog="router_cli.py",
-        description="Agentica v2 Model Router CLI"
+        description="Agenticana v2 Model Router CLI"
     )
     parser.add_argument("task", nargs="?", help="Task description to route")
     parser.add_argument("--agent", default="orchestrator", help="Agent to invoke (default: orchestrator)")
@@ -104,7 +104,7 @@ def main():
 
     if args.stats:
         # Emit basic stats (session stats require persistent process, show config instead)
-        config_path = AGENTICA_ROOT / "router" / "config.json"
+        config_path = Agenticana_ROOT / "router" / "config.json"
         with open(config_path) as f:
             config = json.load(f)
         print(json.dumps({
