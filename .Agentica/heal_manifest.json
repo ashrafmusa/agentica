@@ -1,0 +1,10 @@
+{
+  "tasks": [
+    {
+      "id": "heal-1772490724",
+      "agent": "debugger",
+      "command": "python scripts/agent_cli.py @debugger 'Fix failures in audit: Audit/Lint/Verify'",
+      "description": "Autonomous repair of audit failure."
+    }
+  ]
+}

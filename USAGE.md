@@ -231,6 +231,20 @@ python scripts/dashboard_api.py
 - **Security**: The dashboard is restricted to **localhost only**.
 - **Auth Key**: You will be prompted for an API key. Find yours in `.Agentica/auth.key`.
 
+### Self-Healing Sentinel (🛡️ Auto-Repair)
+The autonomous system that monitors and repairs your codebase.
+
+```powershell
+# Manually trigger a healing sweep
+python scripts/sentinel.py
+```
+
+- **Function**: Runs audits (lint, tests, security).
+- **Action**: If a failure is detected, it automatically dispatches a **Debugger Swarm** to fix the issue.
+- **Automation**: Integrated into the Heartbeat Daemon for periodic background maintenance.
+
+---
+
 ## 6. Automation & CI/CD
 
 Agenticana includes a pre-configured **GitHub Actions CI** pipeline.

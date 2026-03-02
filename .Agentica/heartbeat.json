@@ -26,6 +26,12 @@
         "command": "python scripts/exchange.py sync",
         "interval_hours": 1,
         "description": "Sync with remote registry for updates"
+      },
+      {
+        "id": "self-heal",
+        "command": "python scripts/sentinel.py",
+        "interval_hours": 1,
+        "description": "Autonomous error detection and repair"
       }
     ],
     "logging": {

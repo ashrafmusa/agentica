@@ -248,6 +248,7 @@ routing_hints:
 | `notify.ps1` | `powershell -File scripts/notify.ps1` | Audio/Visual Alert |
 | `swarm_dispatcher.py` | `python scripts/swarm_dispatcher.py manifest.json` | Parallel agent execution |
 | `swarm_status.py` | `python scripts/swarm_status.py` | Real-time swarm monitoring |
+| `sentinel.py` | `python scripts/sentinel.py` | Autonomous error repair |
 | `vector_memory.py` | `python scripts/vector_memory.py` | Lightweight semantic store |
 | `dashboard_api.py` | `python scripts/dashboard_api.py` | Control Center Backend |
 | `agent_cli.py` | `python scripts/agent_cli.py @agent "task"` | CLI entry for agents |
