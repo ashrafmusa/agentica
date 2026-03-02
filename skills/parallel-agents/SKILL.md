@@ -10,8 +10,14 @@ allowed-tools: Read, Glob, Grep
 
 ## Overview
 
-This skill enables coordinating multiple specialized agents through Antigravity's native agent system. Unlike external scripts, this approach keeps all orchestration within Antigravity's control.
+This skill enables coordinating multiple specialized agents through Antigravity's native agent system and the **Swarm Dispatcher** for high-concurrency parallel execution.
 
+### Execution Modes
+
+1.  **Sequential (Native)**: Agents run one after another through the Agent Tool. Best for dependent tasks.
+2.  **Swarm (Parallel)**: Multiple agents run simultaneously via the `swarm_dispatcher.py`. Best for independent sub-tasks (e.g., UI + API + Tests).
+
+---
 ## When to Use Orchestration
 
 ✅ **Good for:**
@@ -153,6 +159,46 @@ After all agents complete, synthesize:
 - [ ] Refactor API endpoint
 - [ ] Add missing tests
 ```
+
+---
+
+## Swarm Dispatch Protocol (Parallel)
+
+When running complex tasks that can be parallelized, use the **Swarm Protocol**:
+
+### 1. Decompose
+Identify independent tasks. (e.g., Task A: Create Backend API, Task B: Create Frontend UI).
+
+### 2. Manifest Creation
+Create a `.Agentica/swarm_manifest.json` file.
+
+```json
+{
+  "tasks": [
+    {
+      "id": "build-api",
+      "agent": "backend-specialist",
+      "command": "antigravity @backend-specialist 'Create GET /users endpoint'",
+      "description": "Construct the user retrieval API"
+    },
+    {
+      "id": "build-ui",
+      "agent": "frontend-specialist",
+      "command": "antigravity @frontend-specialist 'Create UserListView component'",
+      "description": "Develop the user list interface"
+    }
+  ]
+}
+```
+
+### 3. Dispatch
+Run the swarm dispatcher:
+```bash
+python scripts/swarm_dispatcher.py .Agentica/swarm_manifest.json
+```
+
+### 4. Aggregate
+Review the logs in `.Agentica/logs/swarm/` and synthesize the collective findings.
 
 ---
 

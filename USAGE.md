@@ -208,6 +208,17 @@ python scripts/heartbeat_daemon.py
 python scripts/heartbeat_daemon.py --once
 ```
 
+### Swarm Dispatcher (🐝 Parallel)
+Run multiple specialist agents simultaneously for complex projects.
+
+```powershell
+# Dispatch parallel tasks from a manifest
+python scripts/swarm_dispatcher.py .Agentica/swarm_manifest.json
+
+# Check real-time swarm status
+python scripts/swarm_status.py
+```
+
 ---
 
 ## 6. Automation & CI/CD

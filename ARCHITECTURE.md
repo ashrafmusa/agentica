@@ -67,6 +67,8 @@ graph TB
         SI[soul_inject.py]
         CUI[capture_ui.py]
         NOTY[notify.ps1]
+        SD[swarm_dispatcher.py]
+        SS[swarm_status.py]
     end
 
     U --> C0
@@ -89,6 +91,7 @@ graph TB
     RTOOL --> RCLI
     HBD --> VA & DP & NOTY
     TE & FE --> CUI
+    ORC --> SD
 ```
 
 ---
@@ -240,9 +243,14 @@ routing_hints:
 | `distill_patterns.py` | `python scripts/distill_patterns.py` | Extract patterns |
 | `verify_all.py` | `python scripts/verify_all.py .` | Full project audit |
 | `heartbeat_daemon.py` | `python scripts/heartbeat_daemon.py` | Background maintenance |
-| `soul_inject.py` | `python scripts/soul_inject.py "task"` | Retrieve Soul Memory |
+| `soul_inject.py` | `python scripts/soul_inject.py "task"` | Retrieve RAG-Enhanced Soul Memory |
 | `capture_ui.py` | `python scripts/capture_ui.py "url"` | Visual verification |
 | `notify.ps1` | `powershell -File scripts/notify.ps1` | Audio/Visual Alert |
+| `swarm_dispatcher.py` | `python scripts/swarm_dispatcher.py manifest.json` | Parallel agent execution |
+| `swarm_status.py` | `python scripts/swarm_status.py` | Real-time swarm monitoring |
+| `vector_memory.py` | `python scripts/vector_memory.py` | Lightweight semantic store |
+| `dashboard_api.py` | `python scripts/dashboard_api.py` | Control Center Backend |
+| `agent_cli.py` | `python scripts/agent_cli.py @agent "task"` | CLI entry for agents |
 
 ---
 

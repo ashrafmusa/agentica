@@ -186,6 +186,34 @@ test-engineer writes: __tests__/TaskCard.test.tsx
 
 ---
 
+## Swarm Mode (Parallel Coordination)
+
+For massively complex tasks requiring high concurrency, utilize the **Swarm Mode**.
+
+### Swarm Selection Criteria
+- [ ] Task contains 3+ independent sub-tasks
+- [ ] Sub-tasks target different layers (e.g., Auth vs UI vs Database)
+- [ ] Time is of the essence
+
+### Swarm Execution Protocol
+1.  **Generate Manifest**: Create `.Agentica/swarm_manifest.json` with parallel commands.
+2.  **Invoke Dispatcher**: Execute `python scripts/swarm_dispatcher.py .Agentica/swarm_manifest.json`.
+3.  **Monitor**: Use `scripts/swarm_status.py` if needed (user-facing).
+4.  **Aggregate**: Read `report.json` and synthesize.
+
+### Example Swarm Manifest
+```json
+{
+  "tasks": [
+    {"id": "api", "agent": "backend-specialist", "command": "antigravity @backend-specialist '...'"},
+    {"id": "ui", "agent": "frontend-specialist", "command": "antigravity @frontend-specialist '...'"},
+    {"id": "tests", "agent": "test-engineer", "command": "antigravity @test-engineer '...'"}
+  ]
+}
+```
+
+---
+
 ## Native Agent Invocation Protocol
 
 ### Single Agent
@@ -202,7 +230,7 @@ Finally, use the test-engineer to identify missing test coverage.
 
 ### Agent Chaining with Context
 ```
-Use the frontend-specialist to analyze React components, 
+Use the frontend-specialist to analyze React components,
 then have the test-engineer generate tests for the identified components.
 ```
 

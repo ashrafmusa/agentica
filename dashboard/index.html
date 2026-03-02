@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentica Control Center | v3.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Outfit', sans-serif; background: #0b0f1a; color: #e2e8f0; }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .accent-gradient { background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%); }
+    </style>
+</head>
+<body class="p-8">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-12">
+            <div>
+                <h1 class="text-4xl font-bold tracking-tight text-white mb-2">Agentica Control Center</h1>
+                <p class="text-slate-400">Project: <span class="text-sky-400 font-semibold">Agent Americana</span> | Status: <span class="text-emerald-400">OPTIMIZED</span></p>
+            </div>
+            <div class="glass px-6 py-2 rounded-full text-sm font-medium">
+                v3.0.0-evolution
+            </div>
+        </header>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+            <div class="glass p-6 rounded-2xl">
+                <p class="text-slate-400 text-sm mb-1">Heartbeat</p>
+                <p class="text-2xl font-bold text-emerald-400">ACTIVE</p>
+            </div>
+            <div class="glass p-6 rounded-2xl">
+                <p class="text-slate-400 text-sm mb-1">Soul Memory</p>
+                <p class="text-2xl font-bold text-white">RAG-ENHANCED</p>
+            </div>
+            <div class="glass p-6 rounded-2xl">
+                <p class="text-slate-400 text-sm mb-1">Registry</p>
+                <p class="text-2xl font-bold text-white">2 <span class="text-sm font-normal text-slate-500">Components</span></p>
+            </div>
+            <div class="glass p-6 rounded-2xl">
+                <p class="text-slate-400 text-sm mb-1">Swarm Pulse</p>
+                <p class="text-2xl font-bold text-sky-400">IDLE</p>
+            </div>
+        </div>
+
+        <!-- Main View -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Swarm Logs -->
+            <div class="lg:col-span-2 glass rounded-3xl overflow-hidden">
+                <div class="px-8 py-6 border-b border-white/5 flex justify-between items-center">
+                    <h2 class="text-xl font-semibold">Task Swarm Logs</h2>
+                    <span class="text-xs text-sky-400 font-mono tracking-widest uppercase">Real-time Feed</span>
+                </div>
+                <div class="p-8 space-y-4 font-mono text-sm">
+                    <div class="flex gap-4">
+                        <span class="text-slate-500">[02:14:10]</span>
+                        <span class="text-sky-400">[*]</span>
+                        <span>Initializing Swarm Dispatcher...</span>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-slate-500">[02:14:11]</span>
+                        <span class="text-purple-400">[&ast;]</span>
+                        <span>Agent 'database-architect': Syncing vector store...</span>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-slate-500">[02:14:12]</span>
+                        <span class="text-emerald-400">[+]</span>
+                        <span>P6 Deployment Complete.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual Node Capture -->
+            <div class="glass rounded-3xl p-8">
+                <h2 class="text-xl font-semibold mb-6">Visual Research</h2>
+                <div class="relative rounded-2xl overflow-hidden bg-slate-900 border border-white/5">
+                    <div class="h-48 flex items-center justify-center text-slate-600">
+                        <svg class="w-12 h-12 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path></svg>
+                    </div>
+                    <div class="absolute bottom-4 left-4 right-4 bg-slate-900/80 backdrop-blur p-3 rounded-lg text-xs">
+                        Latest: <span class="text-slate-300">cli_exchange_demo.png</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
