@@ -243,9 +243,34 @@ python scripts/sentinel.py
 - **Action**: If a failure is detected, it automatically dispatches a **Debugger Swarm** to fix the issue.
 - **Automation**: Integrated into the Heartbeat Daemon for periodic background maintenance.
 
+### Visual Brain (🎨 Phase P9)
+Automated UI verification and design auditing.
+
+```powershell
+# Run a design audit on a local or remote site
+python scripts/visual_audit.py http://localhost:8080/dashboard/index.html
+```
+
+- **Output**: A "Premium Score" and detailed design feedback (contrast, alignment, aesthetics).
+
+### Soul Bridge (🌐 Phase P10)
+Cross-project intelligence synchronization.
+
+```powershell
+# Add a sibling project to the knowledge network
+python scripts/soul_bridge.py add d:/_Projects/accreditex
+
+# Sync intelligence across all connected projects
+python scripts/soul_bridge.py sync
+```
+
 ---
 
 ## 6. Automation & CI/CD
+**Agentica v4.0 (A.I.R Edition)** is fully automated.
+- **Sentinel**: Repairs code errors.
+- **Bridge**: Syncs intelligence across projects.
+- **Heartbeat**: Manages the schedule.
 
 Agenticana includes a pre-configured **GitHub Actions CI** pipeline.
 
