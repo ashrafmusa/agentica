@@ -64,6 +64,12 @@ This is the living roadmap for Agenticana. Items marked **open** are available f
 **Good for:** Python developer interested in DSL design
 [Start a Discussion →](https://github.com/ashrafmusa/agenticana/discussions/new)
 
+### P25: The Sovereign Loop (Autonomy)
+**Status:** 🚀 **PROPOSAL**
+**Idea:** Close the loop. Agents monitor GitHub issues → Use NL Swarm to self-patch → Shadow Sandbox to verify → Guardian to commit. True self-evolution of the Secretary Bird.
+**Good for:** Deep AI engineering / Systems architecture
+[Start a Discussion →](https://github.com/ashrafmusa/agenticana/discussions/new)
+
 ---
 
 ## 💡 Good First Issues for New Contributors

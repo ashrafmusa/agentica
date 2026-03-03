@@ -24,9 +24,17 @@ jobs:
         pip install playwright
         python -m playwright install chromium
 
-    - name: Run Workspace Verification
+    - name: Verify ReasoningBank
       run: |
-        python scripts/verify_all.py . --no-e2e
+        python scripts/reasoning_bank.py stats
+
+    - name: Verify Model Router
+      run: |
+        python scripts/router_cli.py "test task" --compact
+
+    - name: Validate Agent YAMLs
+      run: |
+        python -c "import yaml, os; files=[f for f in os.listdir('agents') if f.endswith('.yaml')]; [yaml.safe_load(open(f'agents/{f}')) for f in files]; print(f'All {len(files)} agent YAMLs valid')"
 
     - name: Verify Exchange Registry
       run: |

@@ -34,8 +34,9 @@ jobs:
         run: |
           cd mcp
           node -e "
-            ['./tools/memory-tools','./tools/reasoning-bank-tools','./tools/router-tools','./tools/agent-tools']
-              .forEach(m => require(m));
+            const path = require('path');
+            ['./tools/memory-tools.js','./tools/reasoning-bank-tools.js','./tools/router-tools.js','./tools/agent-tools.js']
+              .forEach(m => require(path.resolve(m)));
             process.exit(0);
           "
 
