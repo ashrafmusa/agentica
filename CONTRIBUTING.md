@@ -1,51 +1,76 @@
-# Contributing to Agenticana v2
+# Contributing to Agenticana 🦅
 
-Thank you for your interest in contributing! Agenticana is built by developers for developers — every contribution makes the kit smarter.
+> *"The Secretary Bird doesn't wait to be told what to stomp. It sees the snake and acts."*
+> — That's the spirit we want in contributors.
 
-## 🗺️ What You Can Contribute
+**First time contributing to open source?** You're in the right place. We go out of our way to make this welcoming.
 
-| Contribution | Where | Impact |
-|---|---|---|
-| New agent | `agents/{name}.yaml` + `agents/{name}.md` | High |
-| New skill | `skills/{name}/SKILL.md` | Medium |
-| ReasoningBank decisions | `memory/reasoning-bank/decisions.json` | High |
-| Bug fix in scripts | `scripts/*.py` or `mcp/tools/*.js` | High |
-| Router improvements | `router/*.js` | High |
-| Documentation | `*.md` files | Medium |
+[![Good First Issues](https://img.shields.io/github/issues/ashrafmusa/agenticana/good%20first%20issue?color=7057ff&label=good%20first%20issues)](https://github.com/ashrafmusa/agenticana/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ashrafmusa/agenticana/pulls)
 
 ---
 
-## 🚀 Getting Started
+## 🗺️ What Can I Build?
+
+Pick what excites you. Everything is valuable.
+
+| What | Difficulty | Where | Impact |
+|------|-----------|-------|--------|
+| Fix a typo or doc | ⭐ Beginner | Any `.md` file | Immediate |
+| New ReasoningBank decision | ⭐ Beginner | `memory/reasoning-bank/decisions.json` | High |
+| New issue template or workflow | ⭐ Beginner | `.github/` | Medium |
+| New skill (`SKILL.md`) | ⭐⭐ Easy | `skills/{name}/SKILL.md` | Medium |
+| Improve an existing agent | ⭐⭐ Easy | `agents/{name}.md` | High |
+| Add NL Swarm keyword triggers | ⭐⭐ Easy | `scripts/nl_swarm.py` | High |
+| New agent (YAML + MD) | ⭐⭐⭐ Medium | `agents/` | High |
+| New phase script (P20+) | ⭐⭐⭐⭐ Hard | `scripts/` | Very High |
+| Real LLM agent provider | ⭐⭐⭐⭐ Hard | `scripts/real_simulacrum.py` | Very High |
+| MCP tool (new capability) | ⭐⭐⭐⭐ Hard | `mcp/tools/` | Very High |
+
+---
+
+## ⚡ 5-Minute Setup
 
 ```bash
-git clone https://github.com/ashrafmusa/AGENTICANA.git
-cd Agenticana
+# 1. Fork the repo on GitHub, then clone YOUR fork
+git clone https://github.com/YOUR_USERNAME/agenticana.git
+cd agenticana
 
-# Install all dependencies
-powershell -ExecutionPolicy Bypass -File setup.ps1   # Windows
-# OR
-pip install -r requirements.txt && cd mcp && npm install  # macOS/Linux
+# 2. Install dependencies
+# Windows:
+powershell -ExecutionPolicy Bypass -File setup.ps1
+# macOS/Linux:
+pip install -r requirements.txt && cd mcp && npm install && cd ..
 
-# Verify everything works
+# 3. Install Guardian (protects your commits automatically)
+python scripts/guardian_mode.py install
+
+# 4. Verify everything runs
 python scripts/verify_all.py .
-python scripts/reasoning_bank.py stats
-python scripts/router_cli.py "test task" --compact
+python scripts/agentica_cli.py pulse
+
+# 5. Create your branch
+git checkout -b feat/your-feature-name
 ```
+
+**That's it. You're ready.**
 
 ---
 
-## 📋 Adding a New Agent
+## 🤖 Adding a New Agent
 
-1. **Create the YAML spec** (machine-readable):
+Agents are the heart of Agenticana. Adding one is the most impactful contribution.
+
+### Step 1 — Create the YAML spec
 ```bash
 cp agents/frontend-specialist.yaml agents/your-agent.yaml
 ```
 
-Edit `agents/your-agent.yaml` — follow the schema in `schemas/agent-schema.json`:
+Edit it — follow [`schemas/agent-schema.json`](schemas/agent-schema.json):
 ```yaml
 name: your-agent
-version: "2.0"
-description: "One-line description of what this agent specializes in"
+version: "6.0"
+description: "One clear sentence: what does this agent specialize in?"
 model_tier: pro          # lite | flash | pro | pro-extended
 complexity_tier: COMPLEX # SIMPLE | MODERATE | COMPLEX
 token_budget: 8000
@@ -53,139 +78,207 @@ skills:
   - clean-code
   - your-relevant-skill
 capabilities:
-  - "What this agent can do (specific)"
+  - "Specific thing this agent can do (be concrete)"
+  - "Another specific capability"
 boundaries:
-  - "What this agent should NOT do"
+  - "What this agent should NOT do (be strict)"
 routing_hints:
   domain: your-domain
-  keywords: ["keyword1", "keyword2"]
+  keywords: ["keyword1", "keyword2", "keyword3"]
   auto_invoke: true
 ```
 
-2. **Create the MD rules file** (human-readable instructions for the AI):
-```bash
-# Create agents/your-agent.md with:
-# - Deep domain expertise
-# - Coding rules specific to this domain
-# - Anti-patterns to avoid
-# - Example interactions
-```
+### Step 2 — Write the MD rules
+Create `agents/your-agent.md`. This is the instruction manual the AI reads. Include:
+- The agent's persona and expertise
+- Specific rules for their domain
+- Anti-patterns to avoid
+- Example interactions (very important!)
 
-3. **Validate your agent:**
-```bash
-# Check YAML is valid
-python -c "import yaml; yaml.safe_load(open('agents/your-agent.yaml'))"
+### Step 3 — Add NL Swarm triggers
+Open `scripts/nl_swarm.py` and add your agent's trigger keywords to `AGENT_TRIGGERS`.
 
-# Check CI would pass
+### Step 4 — Validate
+```bash
+# YAML syntax check
+python -c "import yaml; print('Valid:', yaml.safe_load(open('agents/your-agent.yaml'))['name'])"
+
+# Schema check
 python -c "
 import yaml, json
 schema = json.load(open('schemas/agent-schema.json'))
 data = yaml.safe_load(open('agents/your-agent.yaml'))
-required = schema.get('required', [])
-missing = [k for k in required if k not in data]
-if missing: print('Missing:', missing)
-else: print('Valid!')
+missing = [k for k in schema.get('required', []) if k not in data]
+print('PASS' if not missing else f'Missing: {missing}')
 "
+
+# Full suite
+python scripts/verify_all.py .
 ```
 
 ---
 
-## 🧠 Contributing Decisions to ReasoningBank
+## 🧩 Adding a Skill
 
-The ReasoningBank gets smarter with real decisions. If you've solved something interesting, share it:
+Skills are reusable instruction modules loaded by agents.
 
-1. Add your decision to `memory/reasoning-bank/decisions.json`:
+```bash
+mkdir skills/your-skill
+```
+
+Create `skills/your-skill/SKILL.md`:
+```yaml
+---
+name: your-skill
+version: "1.0"
+tier: 2              # 1=Core (always), 2=Domain (match), 3=Utility (explicit)
+token_cost: MEDIUM   # LOW | MEDIUM | HIGH
+domains: ["your-domain"]
+lazy: false
+---
+
+# Your Skill — Instruction for the AI
+
+## Purpose
+[What problem does this skill solve?]
+
+## Rules
+1. [Concrete rule 1]
+2. [Concrete rule 2]
+
+## Anti-Patterns
+- ❌ Never do X
+- ❌ Avoid Y
+
+## Example Application
+[Show how an agent uses this skill in practice]
+```
+
+---
+
+## 🧠 Contributing to ReasoningBank
+
+The smartest contribution. Real decisions make the whole system smarter for everyone.
+
+Add to `memory/reasoning-bank/decisions.json`:
 ```json
 {
   "id": "rb-XXX",
-  "timestamp": "2026-01-01T00:00:00Z",
-  "task": "Your task description",
-  "task_type": "feature|bug|performance|security|refactor",
-  "agent": "agent-name",
-  "decision": "What was decided and why",
-  "outcome": "What happened as a result",
+  "timestamp": "2026-03-03T00:00:00Z",
+  "task": "What you were trying to do",
+  "task_type": "feature",
+  "agent": "backend-specialist",
+  "decision": "What approach you chose and the key reasoning",
+  "outcome": "What happened — did it work? Any surprises?",
   "success": true,
   "tokens_used": 0,
   "model_used": "pro",
   "embedding": null,
-  "tags": ["tag1", "tag2"]
+  "tags": ["auth", "django", "security"]
 }
 ```
 
-2. Run distillation to see if your decision creates a new pattern:
+Then check if it creates a new pattern:
 ```bash
 python scripts/distill_patterns.py --dry-run
 ```
 
 ---
 
-## 🔧 Adding a Skill
+## 🚀 Proposing a New Phase (P20+)
+
+Have an idea for a new Agenticana phase? We love this. Phases P15-P19 all started as ideas.
+
+**Before coding:** Open a Discussion in [GitHub Discussions](https://github.com/ashrafmusa/agenticana/discussions) with:
+- What problem does it solve?
+- How does it fit with existing phases?
+- What would the CLI look like?
+
+We'll debate it using the Logic Simulacrum (yes, really) before implementing.
+
+---
+
+## ✅ Before You Submit
 
 ```bash
-mkdir skills/your-skill
-```
-
-Create `skills/your-skill/SKILL.md` with frontmatter:
-```yaml
----
-name: your-skill
-version: "1.0"
-tier: 2           # 1=Core, 2=Domain, 3=Utility
-token_cost: MEDIUM # LOW | MEDIUM | HIGH
-domains: ["your-domain"]
-lazy: false
----
-
-# Your Skill Instructions
-
-[Detailed instructions for the AI on how to apply this skill]
-```
-
----
-
-## 🧪 Before Submitting a PR
-
-Run the full validation suite:
-
-```bash
-# All checks must pass
+# 1. Run the full validation suite
 python scripts/verify_all.py .
 
-# Specific checks
-python scripts/reasoning_bank.py stats
-python -c "import yaml; [yaml.safe_load(open(f'agents/{f}')) for f in __import__('os').listdir('agents') if f.endswith('.yaml')]; print('All YAMLs valid')"
-cd mcp && node -e "['./tools/memory-tools','./tools/reasoning-bank-tools','./tools/router-tools','./tools/agent-tools'].forEach(m=>require(m)); process.exit(0)"
+# 2. Run the performance check
+python scripts/agentica_cli.py pulse
+
+# 3. Sign your work (optional but appreciated)
+python scripts/pow_commit.py sign
+
+# 4. Guardian will auto-run on git commit
+git commit -m "feat: your change"
+# → Guardian intercepts → lint + secret scan → auto-approved or blocked
 ```
-
----
-
-## 📐 Code Style
-
-- **JavaScript:** No ESM, use CommonJS (`require`/`module.exports`). Functions documented with JSDoc.
-- **Python:** Type hints preferred. Follow PEP 8. Functions < 40 lines.
-- **YAML:** Follow `schemas/agent-schema.json`. All required fields must be present.
-- **Markdown:** Clear headings, code blocks with language tags, tables for structured data.
 
 ---
 
 ## 📬 Pull Request Guidelines
 
-1. **Title:** `[agent]` / `[skill]` / `[fix]` / `[docs]` / `[ci]` prefix
-2. **Description:** What you changed and why. Include example output if adding a script.
-3. **Tests:** CI must pass. For new agents, include at least 2 example interactions in the YAML.
-4. **One thing per PR:** Keep PRs focused. Separate agent additions from bug fixes.
+**Title format:** `[type]: description`
+
+| Type | When |
+|------|------|
+| `feat:` | New agent, skill, phase, or feature |
+| `fix:` | Bug fix |
+| `docs:` | Documentation only |
+| `refactor:` | Code change with no behavior change |
+| `chore:` | CI, tooling, dependencies |
+
+**PR checklist:**
+- [ ] `verify_all.py` passes
+- [ ] Guardian hook installed and approved the commit
+- [ ] No lobsters in the code 🦅
+- [ ] One focused change per PR
+- [ ] Description explains the *why*, not just the *what*
+
+---
+
+## 🎯 Good First Issues
+
+Looking for a place to start? These are always available:
+
+1. **Add your domain's ReasoningBank decisions** — share real problems you've solved
+2. **Improve an agent's anti-patterns section** — add more "don't do this" rules
+3. **Add NL Swarm keywords** for underrepresented domains (mobile, ML, game dev)
+4. **Write a new example** in USAGE.md for a phase you've used
+5. **Translate comments** in scripts to make them clearer
+6. **Create a new issue template** for your use case
+
+Browse [`good first issue`](https://github.com/ashrafmusa/agenticana/issues?q=is%3Aopen+label%3A%22good+first+issue%22) labels.
 
 ---
 
 ## 🏷️ Versioning
 
-We follow [Semantic Versioning](https://semver.org/):
+[Semantic Versioning](https://semver.org/):
 - **MAJOR** — Breaking changes to agent YAML schema or MCP tool signatures
-- **MINOR** — New agents, skills, or MCP tools
+- **MINOR** — New agents, skills, phases, or MCP tools
 - **PATCH** — Bug fixes, documentation, new ReasoningBank decisions
 
 ---
 
-## 💬 Questions?
+## 💬 Community & Questions
 
-Open an [issue](https://github.com/ashrafmusa/AGENTICANA/issues) with the `question` label.
+| Channel | Purpose |
+|---------|---------|
+| [GitHub Issues](https://github.com/ashrafmusa/agenticana/issues) | Bugs, feature requests |
+| [GitHub Discussions](https://github.com/ashrafmusa/agenticana/discussions) | Ideas, Q&A, Show & Tell |
+| PR comments | Code-specific feedback |
+
+**No question is too small.** If something is confusing — that's a bug in our documentation, not a problem with you.
+
+---
+
+## 🦅 The Secretary Bird Standard
+
+Every contribution to Agenticana should:
+1. **Stomp** — solve a real problem, don't add noise
+2. **Record** — document what you did and why
+3. **Move forward** — leave the codebase better than you found it
+
+*Thank you for contributing. You're building the system that proves AI can think before it acts.*

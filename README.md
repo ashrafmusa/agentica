@@ -328,6 +328,7 @@ python scripts/router_cli.py "build a payment system"
 |-----|-------------|
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Full system architecture (P1–P19) |
 | [USAGE.md](USAGE.md) | Complete usage guide with all CLI flags |
+| [ROADMAP.md](ROADMAP.md) | What's built, what's next (P20-P24 open) |
 | [CHANGELOG.md](CHANGELOG.md) | Version history |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute |
 | [docs/decisions/](docs/decisions/) | Auto-generated ADRs |

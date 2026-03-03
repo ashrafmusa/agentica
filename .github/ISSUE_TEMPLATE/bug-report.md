@@ -1,39 +1,46 @@
 ---
-name: Bug Report
-about: Something isn't working
-title: '[BUG] '
-labels: 'bug'
+name: 🐛 Bug Report
+about: Something is broken — let's stomp it
+title: "[BUG] "
+labels: bug
 assignees: ''
 ---
 
-## Component
-<!-- Which component is broken? -->
-- [ ] MCP Server (`mcp/server.js`)
-- [ ] ReasoningBank (`scripts/reasoning_bank.py`)
-- [ ] Model Router (`scripts/router_cli.py`)
-- [ ] Agent definition (`agents/*.yaml`)
-- [ ] Skill (`skills/*/SKILL.md`)
-- [ ] CLI (`bin/AGENTICANA.js`)
-- [ ] VS Code integration
-- [ ] Other
+## What Happened?
+<!-- Clear description of the bug -->
 
-## Describe the Bug
-<!-- Clear description of what's wrong -->
 
-## To Reproduce
+## What Did You Expect?
+<!-- What should have happened instead? -->
+
+
+## Steps to Reproduce
 ```bash
-# Steps / commands that trigger the bug
+# Exact commands that trigger the bug
+1.
+2.
+3.
 ```
 
-## Expected Behavior
-<!-- What should happen -->
-
-## Actual Behavior
-<!-- What actually happens — include error messages -->
+## Error Output
+```
+paste the full error here
+```
 
 ## Environment
-- OS:
-- Node.js version:
-- Python version:
-- VS Code version:
-- Agenticana version: v2.0.0
+- **OS:** (Windows / macOS / Linux)
+- **Python version:** (`python --version`)
+- **Node.js version:** (`node --version`)
+- **Agenticana version:** (check CHANGELOG.md)
+
+## Which Phase/Script?
+<!-- e.g., P16 Guardian Mode, P15 Real Simulacrum, swarm_dispatcher.py -->
+
+
+## Sentinel Output (if relevant)
+```bash
+python scripts/agentica_cli.py sentinel
+```
+
+## Additional Context
+<!-- Screenshots, logs, anything else useful -->
