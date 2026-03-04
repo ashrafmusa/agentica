@@ -50,9 +50,37 @@ class DashboardHandler(http.server.SimpleHTTPRequestHandler):
                 "registry": self.get_registry_count(),
                 "vector_memory": self.get_vector_count(),
                 "intel": self.get_intel_data(),
-                "simulacrum": self.get_latest_simulacrum()
+                "simulacrum": self.get_latest_simulacrum(),
+                "logs": self.get_recent_logs()
             }
             self.wfile.write(json.dumps(status).encode())
+
+        elif self.path.startswith('/api/run'):
+            # Trigger background script
+            import subprocess
+            query = self.path.split('?')[-1]
+            task = query.split('=')[-1]
+
+            script_map = {
+                "intel": ["python", "scripts/sovereign_intel.py"],
+                "evolve": ["python", "scripts/nl_swarm.py", "Autonomous Evolution", "--intel", "--run"],
+                "audit": ["python", "scripts/verify_all.py", "--url", "local"]
+            }
+
+            cmd = script_map.get(task)
+            if cmd:
+                # Run in background and pipe to dashboard logs
+                log_file = open(".Agentica/logs/dashboard_action.log", "a")
+                log_file.write(f"\n--- Starting {task} at {datetime.now()} ---\n")
+                subprocess.Popen(cmd, stdout=log_file, stderr=log_file)
+
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({"status": "started", "task": task}).encode())
+            else:
+                self.send_response(404)
+                self.end_headers()
         else:
             # Fallback for static files (dashboard/index.html etc)
             super().do_GET()
@@ -62,6 +90,13 @@ class DashboardHandler(http.server.SimpleHTTPRequestHandler):
     def get_latest_heartbeat(self):
         path = Path(".Agentica/logs/heartbeat.log")
         return "Active" if path.exists() else "Inactive"
+
+    def get_recent_logs(self):
+        path = Path(".Agentica/logs/dashboard_action.log")
+        if path.exists():
+            with open(path, 'r', encoding='utf-8') as f:
+                return f.readlines()[-50:]
+        return []
 
     def get_latest_swarm(self):
         path = Path(".Agentica/logs/swarm/report.json")

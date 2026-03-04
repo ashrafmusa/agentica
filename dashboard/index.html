@@ -47,9 +47,8 @@
         <!-- TOP NAVIGATION -->
         <nav class="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
             <div class="flex items-center gap-4">
-                <div
-                    class="w-14 h-14 bird-gradient rounded-2xl flex items-center justify-center text-3xl shadow-lg stomp-shadow">
-                    🦅</div>
+                <div class="w-14 h-14 bird-gradient rounded-2xl flex items-center justify-center text-3xl shadow-lg stomp-shadow">🦅
+                </div>
                 <div>
                     <h1 class="text-3xl font-display font-bold tracking-tight">Agenticana <span class="text-bird-accent">v6.0</span></h1>
                     <div class="flex items-center gap-2 text-xs text-slate-500 uppercase tracking-widest font-semibold mt-1">
@@ -71,13 +70,13 @@
                 </div>
             </div>
         </nav>
-        
+
         <!-- MAIN GRID -->
         <div class="grid grid-cols-1 xl:grid-cols-12 gap-8">
-        
+
             <!-- LEFT COLUMN: INTEL & SWARM -->
             <div class="xl:col-span-8 space-y-8">
-        
+
                 <!-- MARKET INTELLIGENCE (MASSIVE FEED) -->
                 <section class="glass rounded-[40px] p-8 glow-accent border-bird-accent/10">
                     <div class="flex justify-between items-end mb-8">
@@ -98,7 +97,7 @@
     </div>
                     </div>
                 </section>
-                
+
                 <!-- BRAIN DEBATE CHAMBER (SIMULACRUM) -->
                 <section class="glass rounded-[40px] p-8 border-white/5 relative overflow-hidden">
                     <div class="flex justify-between items-center mb-6">
@@ -115,41 +114,42 @@
                     <div class="bg-bird-deep/50 rounded-3xl p-6 min-h-[300px] border border-white/5 mb-6" id="debate-content">
                         <p class="text-slate-500 italic text-center mt-12">Launch a new swarm to see agent debates in real-time.</p>
                     </div>
-<div class="flex justify-between items-center bg-white/5 -mx-8 -mb-8 px-8 py-4">
-    <div class="text-xs text-slate-500">
-        Target Topic: <span class="text-slate-300 font-semibold" id="debate-topic">None</span>
-    </div>
+
+                    <div class="flex justify-between items-center bg-white/5 -mx-8 -mb-8 px-8 py-4">
+                        <div class="text-xs text-slate-500">
+                            Target Topic: <span class="text-slate-300 font-semibold" id="debate-topic">None</span>
+                        </div>
                         <div class="flex -space-x-2" id="debate-agents">
                             <!-- Agent Avatars -->
                         </div>
-                        </div>
+                    </div>
                 </section>
-                </div>
+            </div>
 
             <!-- RIGHT COLUMN: STATUS & QUICK ACTIONS -->
             <div class="xl:col-span-4 space-y-8">
-            
+
                 <!-- QUICK ACTIONS (NON-DEV FRIENDLY) -->
                 <section class="bird-gradient rounded-[40px] p-8 text-white stomp-shadow">
                     <h3 class="text-xl font-display font-bold mb-4">Evolution Commands</h3>
                     <p class="text-blue-100 text-sm mb-8">Force Agenticana to self-improve based on identified market gaps.</p>
-            
+
                     <div class="space-y-3">
-                        <button onclick="alert('Starting Intelligence Swarm... Check terminal for logs.')"
+                        <button onclick="runTask('intel')"
                             class="w-full bg-white text-bird-deep font-bold py-4 rounded-2xl hover:bg-bird-accent hover:text-white transition-all transform hover:scale-[1.02]">
                             🔍 Scan Competitors
                         </button>
-                        <button onclick="alert('Generating Self-Evolution swarm...')"
+                        <button onclick="runTask('evolve')"
                             class="w-full bg-white/10 text-white border border-white/20 font-bold py-4 rounded-2xl hover:bg-white/20 transition-all">
                             🚀 Self-Evolve (P25)
                         </button>
-                        <button onclick="alert('Running Sentinel healing...')"
+                        <button onclick="runTask('audit')"
                             class="w-full bg-white/10 text-white border border-white/20 font-bold py-4 rounded-2xl hover:bg-white/20 transition-all">
                             🛡️ Health Audit
                         </button>
                     </div>
                 </section>
-            
+
                 <!-- SYSTEM STATS -->
                 <section class="glass rounded-[40px] p-8 border-white/5">
                     <h3 class="text-lg font-display font-bold mb-6">Sovereign Stats</h3>
@@ -161,10 +161,11 @@
                         <div class="w-full h-1 bg-white/5 rounded-full overflow-hidden">
                             <div class="h-full bg-bird-accent w-[60%]"></div>
                         </div>
-<div class="flex justify-between items-center">
-    <span class="text-slate-400 text-sm">Agent Registry</span>
-    <span class="font-display font-bold text-bird-success text-xl" id="stat-registry">0</span>
-</div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-400 text-sm">Agent Registry</span>
+                            <span class="font-display font-bold text-bird-success text-xl" id="stat-registry">0</span>
+                        </div>
                         <div class="w-full h-1 bg-white/5 rounded-full overflow-hidden">
                             <div class="h-full bg-bird-success w-[85%]"></div>
                         </div>
@@ -178,11 +179,11 @@
                         </div>
                     </div>
                 </section>
-                
-                <!-- ACTIVE SWARM (LEGACY FEED) -->
+
+                <!-- ACTIVE SWARM (LIVE FEED) -->
                 <section class="glass rounded-[40px] p-8 border-bird-accent/5 overflow-hidden">
-                    <h3 class="text-sm font-bold uppercase tracking-widest text-slate-500 mb-4">Latest Operation</h3>
-                    <div id="swarm-feed" class="space-y-4 max-h-[200px] overflow-y-auto pr-2 scrollbar-hide text-[11px] font-mono">
+                    <h3 class="text-sm font-bold uppercase tracking-widest text-slate-500 mb-4">Shadow Swarm Feed</h3>
+                    <div id="swarm-feed" class="space-y-2 max-h-[300px] overflow-y-auto pr-2 scrollbar-hide text-[10px] font-mono">
                         <!-- Swarm logs injected here -->
                         <p class="text-slate-600 italic">No active operations...</p>
                     </div>
@@ -193,15 +194,26 @@
 
     <!-- SCRIPTS -->
     <script>
-            const AUTH_KEY = localStorage.getItem('agentica_auth') || new URLSearchParams(window.location.search).get('auth');
+        const AUTH_KEY = localStorage.            Params(window.location.search).get('auth');
 
-            if (!AUTH_KEY) {
-                const key = prompt("Enter Agentica Auth Key:");
-                if (key) localStorage.setItem('agentica_auth', key);
-                location.reload();
-            }
+        if (!AUTH_KEY) {
+            const key = prompt("Enter Agentica Auth Key:");
+            if (key) localStorage.setItem('age k                      location.reload();
+        }
 
-            async function updateDashboard() {
+        async function runTask(task) {
+            try {
+                            sponse = await fet                ?task=${task}`, {
+                    headers: {                -Auth': AUTH_KEY }
+                });
+                             nse.ok) {
+                        co            g(`Task ${task} started`);
+                    }
+                        (err) {
+                console.error("Failed to run tas                            }
+        }
+
+        async function updateDashboard() {
             try {
                 const response = await fetch('/api/status', {
                     headers: { 'X-Agentica-Auth': AUTH_KEY }
@@ -263,18 +275,17 @@
                     content.innerHTML += `</div>`;
                 }
 
-                // Update Feed
-                if (data.swarm && data.swarm.tasks) {
+                // Update Feed (Logs)
+                if (data.logs && data.logs.length > 0) {
                     const feed = document.getElementById('swarm-feed');
                     feed.innerHTML = '';
-                    data.swarm.tasks.forEach(t => {
-                        feed.innerHTML += `
-                            <div class="flex justify-between items-center opacity-70">
-                                <span>[${t.agent}] ${t.id}</span>
-                                <span class="${t.status === 'COMPLETED' ? 'text-bird-success' : 'text-bird-crimson'}">${t.status}</span>
-                            </div>
-                        `;
+                    data.logs.forEach(line => {
+                        const div = document.createElement('div');
+                        div.className = "flex gap-2 py-0.5 border-l border-white/5 pl-2 truncate";
+                        div.innerHTML = `<span class="text-slate-500">></span> <span class="text-slate-300">${line.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</span>`;
+                        feed.appendChild(div);
                     });
+                    feed.scrollTop = feed.scrollHeight;
                 }
 
             } catch (err) {
@@ -283,8 +294,8 @@
             }
         }
 
-            setInterval(updateDashboard, 4000);
-            updateDashboard();
+        setInterval(updateDashboard, 3000);
+        updateDashboard();
     </script>
 </body>
 </html>
