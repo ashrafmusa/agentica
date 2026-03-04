@@ -35,10 +35,13 @@ This is the living roadmap for Agenticana. Items marked **open** are available f
 ## 🔜 Next Phases (Open for Contributors)
 
 ### P20: Multi-Model Simulacrum
-**Status:** 🟡 Idea — needs design discussion
+**Status:** 🚀 **IN PROGRESS (Autonomous Evolution)**
 **Idea:** Let agents use different LLM providers per persona (Gemini for security-auditor, Claude for backend-specialist, GPT-4 for frontend-specialist). Real diversity of model reasoning.
-**Good for:** Experienced contributor with OpenAI/Anthropic API knowledge
-[Start a Discussion →](https://github.com/ashrafmusa/agenticana/discussions/new)
+**Action:** Implementing `scripts/multi_model_simulacrum.py`.
+
+### P26: Voice-to-Code Interface
+**Status:** 🟡 Idea (From Competitor Gap Audit)
+**Idea:** Bridge speech-to-text with NL Swarm. "Stomp" OpenClaw by providing a professional CLI for voice-based development.
 
 ### P21: Swarm Result Merger
 **Status:** 🟡 Idea — needs design discussion
