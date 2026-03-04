@@ -29,30 +29,18 @@ This is the living roadmap for Agenticana. Items marked **open** are available f
 | P17 | NL Swarm — plain English to swarm manifest | ✅ Shipped v6.0 |
 | P18 | ADR Generator — debate → architecture docs | ✅ Shipped v6.0 |
 | P19 | Proof-of-Work — signed commit attestations | ✅ Shipped v6.0 |
+| P20 | Multi-Model Simulacrum — cross-LLM agent debates | ✅ Shipped v6.1 |
+| P21 | Swarm Result Merger — parallel output consolidation | ✅ Shipped v6.1 |
+| P22 | Sovereign Dashboard — Flask API + live log streaming | ✅ Shipped v7.0 |
 
 ---
 
 ## 🔜 Next Phases (Open for Contributors)
 
-### P20: Multi-Model Simulacrum
-**Status:** 🚀 **IN PROGRESS (Autonomous Evolution)**
-**Idea:** Let agents use different LLM providers per persona (Gemini for security-auditor, Claude for backend-specialist, GPT-4 for frontend-specialist). Real diversity of model reasoning.
-**Action:** Implementing `scripts/multi_model_simulacrum.py`.
-
-### P26: Voice-to-Code Interface
-**Status:** 🟡 Idea (From Competitor Gap Audit)
-**Idea:** Bridge speech-to-text with NL Swarm. "Stomp" OpenClaw by providing a professional CLI for voice-based development.
-
-### P21: Swarm Result Merger
-**Status:** ✅ **SHIPPED (Autonomous Implementation)**
-**Idea:** When multiple agents run in parallel, automatically merge their outputs into a single coherent plan with conflict resolution.
-**Implementation:** `scripts/swarm_merger.py` handles multi-agent markdown consolidation.
-
-### P22: Web Dashboard UI
+### P23: VS Code Extension
 **Status:** 🟡 Idea
-**Idea:** React-based real-time dashboard that shows live swarm status, Guardian logs, ReasoningBank queries, and Simulacrum sessions. Replace the current basic HTML dashboard.
-**Good for:** Frontend developer (React)
-[Start a Discussion →](https://github.com/ashrafmusa/agenticana/discussions/new)
+**Idea:** Native VS Code sidebar showing current Guardian status, recent attestations, quick-launch for NL Swarm, and ReasoningBank search.
+**Good for:** VS Code extension developer (TypeScript)
 
 ### P23: VS Code Extension
 **Status:** 🟡 Idea
@@ -96,9 +84,14 @@ Browse [`good first issue`](https://github.com/ashrafmusa/agenticana/issues?q=is
 | Goal | Status |
 |------|--------|
 | Zero-cloud operation (fully local) | ✅ Done |
-| Multi-LLM provider support | 🔜 P20 |
-| Web UI for non-CLI users | 🔜 P22 |
+| Multi-LLM provider support | ✅ Done (P20) |
+| Web UI for non-CLI users | ✅ Done (P22 — Flask Dashboard) |
+| Competitor Intel Feed (11 rivals monitored) | ✅ Done |
+| Self-evolution via NL Swarm | ✅ Done |
+| Proof-of-Work commit attestations | ✅ Done |
 | Plugin/extension marketplace via Exchange | 🔜 Future |
+| Voice-to-Code (P26) | 🔜 Planned |
+| VS Code Extension (P23) | 🔜 Planned |
 | Agenticana-as-a-Service (hosted) | 🔜 Future |
 
 ---

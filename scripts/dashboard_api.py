@@ -1,146 +1,146 @@
-import http.server
-import socketserver
-import json
+"""
+Agenticana Dashboard API — v7.0 (Flask Edition)
+Rebuilt from scratch to fix persistent 404 routing issues.
+"""
 import os
+import json
+import subprocess
 from pathlib import Path
 from datetime import datetime
+from flask import Flask, jsonify, request, send_from_directory, redirect
 
-# Agentica Control Center API (P22 Secretary Bird Edition)
+# ── Config ────────────────────────────────────────────────────────────────────
 PORT = 8080
-AUTH_KEY_PATH = Path(".Agentica/auth.key")
+BASE_DIR = Path(__file__).resolve().parent.parent   # d:\_Projects\Agentica
+DASHBOARD_DIR = BASE_DIR / "dashboard"
+AUTH_KEY_PATH = BASE_DIR / ".Agentica" / "auth.key"
+LOG_PATH = BASE_DIR / ".Agentica" / "logs" / "dashboard_action.log"
 
-def get_auth_key():
+app = Flask(__name__, static_folder=str(DASHBOARD_DIR))
+
+# ── Helpers ───────────────────────────────────────────────────────────────────
+
+def get_auth_key() -> str | None:
     if AUTH_KEY_PATH.exists():
-        return AUTH_KEY_PATH.read_text().strip()
+        return AUTH_KEY_PATH.read_text(encoding="utf-8").strip()
     return None
 
-class DashboardHandler(http.server.SimpleHTTPRequestHandler):
-    def do_GET(self):
-        # 1. Root Redirect
-        if self.path == '/':
-            self.send_response(301)
-            self.send_header('Location', '/dashboard/index.html')
-            self.end_headers()
-            return
 
-        # 2. Security Gate: Check for API Key
-        auth_header = self.headers.get('X-Agentica-Auth')
-        expected_key = get_auth_key()
+def check_auth() -> bool:
+    key = request.headers.get("X-Agentica-Auth", "")
+    expected = get_auth_key()
+    ok = key == expected
+    if not ok:
+        print(f"[AUTH] Blocked — received='{key}' expected='{expected}'")
+    return ok
 
-        if self.path.startswith('/api/') and auth_header != expected_key:
-            self.send_response(401)
-            self.end_headers()
-            self.wfile.write(b'{"error": "Unauthorized"}')
-            return
 
-        # 3. API Endpoints
-        if self.path == '/api/status':
-            self.send_response(200)
-            self.send_header('Content-Type', 'application/json')
-            self.send_header('Access-Control-Allow-Origin', '*')
-            self.send_header('Access-Control-Allow-Headers', 'X-Agentica-Auth')
-            self.end_headers()
-
-            status = {
-                "project": "Agenticana",
-                "version": "v6.0.0 (SEC BIRD)",
-                "timestamp": datetime.now().isoformat(),
-                "heartbeat": self.get_latest_heartbeat(),
-                "swarm": self.get_latest_swarm(),
-                "registry": self.get_registry_count(),
-                "vector_memory": self.get_vector_count(),
-                "intel": self.get_intel_data(),
-                "simulacrum": self.get_latest_simulacrum(),
-                "logs": self.get_recent_logs()
-            }
-            self.wfile.write(json.dumps(status).encode())
-
-        elif self.path.startswith('/api/run'):
-            # Trigger background script
-            import subprocess
-            query = self.path.split('?')[-1]
-            task = query.split('=')[-1]
-
-            script_map = {
-                "intel": ["python", "scripts/sovereign_intel.py"],
-                "evolve": ["python", "scripts/nl_swarm.py", "Autonomous Evolution", "--intel", "--run"],
-                "audit": ["python", "scripts/verify_all.py", "--url", "local"]
-            }
-
-            cmd = script_map.get(task)
-            if cmd:
-                # Run in background and pipe to dashboard logs
-                log_file = open(".Agentica/logs/dashboard_action.log", "a")
-                log_file.write(f"\n--- Starting {task} at {datetime.now()} ---\n")
-                subprocess.Popen(cmd, stdout=log_file, stderr=log_file)
-
-                self.send_response(200)
-                self.send_header('Content-Type', 'application/json')
-                self.end_headers()
-                self.wfile.write(json.dumps({"status": "started", "task": task}).encode())
-            else:
-                self.send_response(404)
-                self.end_headers()
-        else:
-            # Fallback for static files (dashboard/index.html etc)
-            super().do_GET()
-
-    # --- Data Helpers ---
-
-    def get_latest_heartbeat(self):
-        path = Path(".Agentica/logs/heartbeat.log")
-        return "Active" if path.exists() else "Inactive"
-
-    def get_recent_logs(self):
-        path = Path(".Agentica/logs/dashboard_action.log")
+def read_json(path: Path, default=None):
+    try:
         if path.exists():
-            with open(path, 'r', encoding='utf-8') as f:
-                return f.readlines()[-50:]
-        return []
-
-    def get_latest_swarm(self):
-        path = Path(".Agentica/logs/swarm/report.json")
-        if path.exists():
-            with open(path, 'r') as f:
+            with open(path, encoding="utf-8") as f:
                 return json.load(f)
+    except Exception as e:
+        print(f"[WARN] Could not read {path}: {e}")
+    return default
+
+
+def get_recent_logs(n: int = 50):
+    if LOG_PATH.exists():
+        with open(LOG_PATH, encoding="utf-8") as f:
+            return f.readlines()[-n:]
+    return []
+
+
+def get_latest_simulacrum():
+    log_dir = BASE_DIR / ".Agentica" / "logs" / "simulacrum"
+    if not log_dir.exists():
         return None
+    logs = sorted(log_dir.glob("*.json"), key=os.path.getmtime, reverse=True)
+    return read_json(logs[0]) if logs else None
 
-    def get_intel_data(self):
-        path = Path(".Agentica/competitor_intel.json")
-        if path.exists():
-            with open(path, 'r', encoding='utf-8') as f:
-                return json.load(f)
-        return []
 
-    def get_latest_simulacrum(self):
-        log_dir = Path(".Agentica/logs/simulacrum")
-        if not log_dir.exists():
-            return None
-        logs = sorted(log_dir.glob("*.json"), key=os.path.getmtime, reverse=True)
-        if logs:
-            try:
-                with open(logs[0], 'r', encoding='utf-8') as f:
-                    return json.load(f)
-            except:
-                return None
-        return None
+# ── Routes ────────────────────────────────────────────────────────────────────
 
-    def get_registry_count(self):
-        path = Path(".Agentica/registry.json")
-        if path.exists():
-            with open(path, 'r') as f:
-                return len(json.load(f).get("installed", {}))
-        return 0
+@app.route("/")
+def root():
+    return redirect("/dashboard/index.html")
 
-    def get_vector_count(self):
-        path = Path(".Agentica/vector_store.json")
-        if path.exists():
-            with open(path, 'r') as f:
-                return len(json.load(f).get("documents", []))
-        return 0
+
+@app.route("/favicon.ico")
+def favicon():
+    return "", 204
+
+
+@app.route("/dashboard/")
+@app.route("/dashboard/<path:filename>")
+def serve_dashboard(filename="index.html"):
+    return send_from_directory(DASHBOARD_DIR, filename)
+
+
+@app.route("/api/status")
+def api_status():
+    if not check_auth():
+        return jsonify({"error": "Unauthorized"}), 401
+
+    registry_path = BASE_DIR / ".Agentica" / "registry.json"
+    vector_path   = BASE_DIR / ".Agentica" / "vector_store.json"
+    swarm_path    = BASE_DIR / ".Agentica" / "logs" / "swarm" / "report.json"
+    intel_path    = BASE_DIR / ".Agentica" / "competitor_intel.json"
+    heartbeat_path= BASE_DIR / ".Agentica" / "logs" / "heartbeat.log"
+
+    registry_data = read_json(registry_path, {})
+    vector_data   = read_json(vector_path, {})
+
+    status = {
+        "project": "Agenticana",
+        "version": "v7.0.0 (Flask Edition)",
+        "timestamp": datetime.now().isoformat(),
+        "heartbeat": "Active" if heartbeat_path.exists() else "Inactive",
+        "swarm": read_json(swarm_path),
+        "registry": len(registry_data.get("installed", {})),
+        "vector_memory": len(vector_data.get("documents", [])),
+        "intel": read_json(intel_path, []),
+        "simulacrum": get_latest_simulacrum(),
+        "logs": get_recent_logs(),
+    }
+    return jsonify(status)
+
+
+@app.route("/api/run")
+def api_run():
+    if not check_auth():
+        return jsonify({"error": "Unauthorized"}), 401
+
+    task = request.args.get("task", "").strip()
+    print(f"[TASK] Received run request for: '{task}'")
+
+    SCRIPT_MAP = {
+        "intel":  ["python", str(BASE_DIR / "scripts" / "sovereign_intel.py")],
+        "evolve": ["python", str(BASE_DIR / "scripts" / "nl_swarm.py"), "Autonomous Evolution", "--intel", "--run"],
+        "audit":  ["python", str(BASE_DIR / "scripts" / "verify_all.py"), "--url", "local"],
+    }
+
+    cmd = SCRIPT_MAP.get(task)
+    if not cmd:
+        print(f"[ERROR] Unknown task: '{task}' — valid: {list(SCRIPT_MAP.keys())}")
+        return jsonify({"error": "Task not found", "task": task, "valid": list(SCRIPT_MAP.keys())}), 404
+
+    LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
+    log_file = open(LOG_PATH, "a", encoding="utf-8")
+    log_file.write(f"\n--- Starting '{task}' at {datetime.now()} ---\n")
+    log_file.flush()
+
+    subprocess.Popen(cmd, stdout=log_file, stderr=log_file, cwd=str(BASE_DIR))
+    print(f"[EXEC] Launched: {' '.join(cmd)}")
+
+    return jsonify({"status": "started", "task": task})
+
+
+# ── Boot ──────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
-    socketserver.TCPServer.allow_reuse_address = True
-    print(f"[*] Starting Agenticana Dashboard API on http://127.0.0.1:{PORT}...")
-    with socketserver.TCPServer(("0.0.0.0", PORT), DashboardHandler) as httpd:
-        httpd.serve_forever()
+    print(f"[*] Agenticana Dashboard API v7.0 — http://127.0.0.1:{PORT}")
+    print(f"[*] Serving dashboard from: {DASHBOARD_DIR}")
+    print(f"[*] Base dir: {BASE_DIR}")
+    app.run(host="0.0.0.0", port=PORT, debug=False)
