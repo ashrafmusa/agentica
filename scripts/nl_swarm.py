@@ -182,12 +182,38 @@ if __name__ == "__main__":
                         help="Immediately dispatch the generated swarm")
     parser.add_argument("--shadow", action="store_true",
                         help="Run in Shadow Sandbox mode (requires --run)")
+    parser.add_argument("--intel", action="store_true",
+                        help="Process competitor intelligence from .Agentica/competitor_intel.json")
     args = parser.parse_args()
 
-    print(f"\n{YELLOW}{BOLD}Secretary Bird NL Swarm Parser (P17){RESET}")
-    print(f"{BOLD}Input:{RESET} {args.description}\n")
+    description = args.description
 
-    manifest, out_path = nl_to_manifest(args.description, args.output)
+    # P25 Bridge: Process competitor intelligence
+    if args.intel:
+        intel_path = Path(".Agentica/competitor_intel.json")
+        if not intel_path.exists():
+            print(f"{RED}Error: Intelligence file not found. Run scripts/sovereign_intel.py first.{RESET}")
+            sys.exit(1)
+
+        with open(intel_path, "r") as f:
+            intel = json.load(f)
+
+        # Combine all trending requests into a single prompt
+        gaps = []
+        for repo in intel:
+            gaps.extend(repo.get("trending_requests", []))
+
+        if not gaps:
+            print(f"{YELLOW}No trending requests found in intel. Exiting.{RESET}")
+            sys.exit(0)
+
+        description = f"Autonomous Market Gap Implementation: {', '.join(gaps)}. Bridge these gaps in Agenticana."
+        print(f"{CYAN}{BOLD}[P25 Bridge] Intelligence detected: {len(gaps)} trending requests.{RESET}")
+
+    print(f"\n{YELLOW}{BOLD}Secretary Bird NL Swarm Parser (P17){RESET}")
+    print(f"{BOLD}Input:{RESET} {description}\n")
+
+    manifest, out_path = nl_to_manifest(description, args.output)
 
     print(f"{CYAN}{BOLD}Detected Agents:{RESET} {', '.join(manifest['meta']['detected_agents'])}")
     print(f"{CYAN}{BOLD}Detected Intents:{RESET} {', '.join(manifest['meta']['detected_intents'])}")
