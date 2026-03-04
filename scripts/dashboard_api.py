@@ -158,6 +158,88 @@ def api_run():
     return jsonify({"status": "started", "task": task, "log_offset": offset})
 
 
+# ── Debate endpoints ───────────────────────────────────────────────────────────
+
+DEBATE_LOG_PATH = BASE_DIR / ".Agentica" / "logs" / "debate_live.log"
+SIMULACRUM_DIR  = BASE_DIR / ".Agentica" / "logs" / "simulacrum"
+
+@app.route("/api/debate", methods=["GET", "POST"])
+def api_debate():
+    if not check_auth():
+        return jsonify({"error": "Unauthorized"}), 401
+
+    topic = request.args.get("topic", "Should Agenticana adopt voice-to-code as its next major feature?").strip()
+    agents_param = request.args.get("agents", "backend-specialist,security-auditor,frontend-specialist,devops-engineer")
+    agents = [a.strip() for a in agents_param.split(",") if a.strip()]
+    rounds = int(request.args.get("rounds", 2))
+
+    # Clear debate log for fresh stream
+    DEBATE_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
+    DEBATE_LOG_PATH.write_text(f"--- Debate started: {topic} ---\n", encoding="utf-8")
+
+    cmd = [
+        "python", str(BASE_DIR / "scripts" / "real_simulacrum.py"),
+        topic, "--agents"
+    ] + agents + ["--rounds", str(rounds)]
+
+    env = os.environ.copy()
+    env["PYTHONUNBUFFERED"] = "1"
+
+    proc = subprocess.Popen(
+        cmd,
+        stdout=open(DEBATE_LOG_PATH, "a", encoding="utf-8"),
+        stderr=subprocess.STDOUT,
+        cwd=str(BASE_DIR),
+        env=env
+    )
+    print(f"[DEBATE] Launched simulacrum: {topic[:60]}")
+
+    offset = DEBATE_LOG_PATH.stat().st_size if DEBATE_LOG_PATH.exists() else 0
+    return jsonify({"status": "started", "topic": topic, "agents": agents, "log_offset": offset})
+
+
+@app.route("/api/debate/logs")
+def api_debate_logs():
+    """Incremental debate log polling by byte offset."""
+    if not check_auth():
+        return jsonify({"error": "Unauthorized"}), 401
+
+    offset = int(request.args.get("offset", 0))
+    if not DEBATE_LOG_PATH.exists():
+        return jsonify({"lines": [], "offset": 0})
+
+    size = DEBATE_LOG_PATH.stat().st_size
+    if offset >= size:
+        return jsonify({"lines": [], "offset": size})
+
+    with open(DEBATE_LOG_PATH, "rb") as f:
+        f.seek(max(0, offset))
+        raw = f.read()
+
+    lines = raw.decode("utf-8", errors="replace").splitlines()
+    return jsonify({"lines": lines, "offset": size})
+
+
+@app.route("/api/debate/latest")
+def api_debate_latest():
+    """Return the most recent completed simulacrum session JSON."""
+    if not check_auth():
+        return jsonify({"error": "Unauthorized"}), 401
+
+    if not SIMULACRUM_DIR.exists():
+        return jsonify({"session": None})
+
+    sessions = sorted(SIMULACRUM_DIR.glob("session_*.json"), key=os.path.getmtime, reverse=True)
+    if not sessions:
+        return jsonify({"session": None})
+
+    try:
+        data = json.loads(sessions[0].read_text(encoding="utf-8"))
+        return jsonify({"session": data})
+    except Exception as e:
+        return jsonify({"session": None, "error": str(e)})
+
+
 # ── Boot ──────────────────────────────────────────────────────────────────────
 
 @app.route("/api/logs")
