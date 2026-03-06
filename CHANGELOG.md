@@ -6,6 +6,21 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [P30] 2026-03-06 — Agent Performance Leaderboard
+
+### Added
+- **Agent Performance Leaderboard**: Track which agents win the most Simulacrum debates, which proposals get accepted, and surface a ranked leaderboard on the dashboard.
+- Plan document: `plans/p30_leaderboard.md`
+- Triggered by market gap analysis: *"Voice-to-code integration"*
+
+### Evolution Chain
+- Intel swarm identified gap across 11 competitor repos
+- Evolution engine selected P30 as next logical phase
+- All artifacts auto-committed by Secretary Bird 🦅
+
+---
+
+
 ## [P29] 2026-03-06 — GitHub Actions CI Agent
 
 ### Added

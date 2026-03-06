@@ -19,6 +19,7 @@ AUTH_KEY_PATH = BASE_DIR / ".Agentica" / "auth.key"
 LOG_PATH = BASE_DIR / ".Agentica" / "logs" / "dashboard_action.log"
 BILLING_EVENTS_PATH = BASE_DIR / ".Agentica" / "billing_events.jsonl"
 SUBSCRIPTION_PATH = BASE_DIR / ".Agentica" / "subscription.json"
+EVOLUTION_LOG_PATH = BASE_DIR / ".Agentica" / "evolution_log.json"
 
 BILLING_LOCK = threading.Lock()
 
@@ -51,6 +52,8 @@ PRICING_MODEL = {
     "run:evolve": {"estimated_cost_usd": 0.12, "estimated_revenue_usd": 0.99, "estimated_value_usd": 2.50},
     "debate:start": {"estimated_cost_usd": 0.08, "estimated_revenue_usd": 0.49, "estimated_value_usd": 1.20},
 }
+
+EVOLUTION_PHASE_ORDER = ["P26", "P27", "P28", "P29", "P30"]
 
 app = Flask(__name__, static_folder=str(DASHBOARD_DIR))
 
@@ -196,6 +199,34 @@ def summarize_billing(plan: str) -> dict:
     }
 
 
+def normalize_phase_id(phase_id: str) -> str:
+    """Strip enhancement suffixes so P30+ still maps to base phase P30."""
+    return str(phase_id or "").split("+")[0].strip()
+
+
+def get_evolution_status() -> dict:
+    ev = read_json(EVOLUTION_LOG_PATH, {})
+    completed_raw = ev.get("completed_phases", []) if isinstance(ev, dict) else []
+    completed = [str(p) for p in completed_raw]
+    completed_base = {normalize_phase_id(p) for p in completed}
+
+    next_phase = None
+    for phase in EVOLUTION_PHASE_ORDER:
+        if phase not in completed_base:
+            next_phase = phase
+            break
+
+    if next_phase is None:
+        # All base phases complete: show first phase in enhanced loop.
+        next_phase = f"{EVOLUTION_PHASE_ORDER[0]}+"
+
+    return {
+        "completed_phases": completed,
+        "completed_count": len(completed),
+        "next_phase": next_phase,
+    }
+
+
 def get_recent_logs(n: int = 50):
     if LOG_PATH.exists():
         with open(LOG_PATH, encoding="utf-8") as f:
@@ -256,6 +287,7 @@ def api_status():
         "simulacrum": get_latest_simulacrum(),
         "logs": get_recent_logs(),
         "billing": summarize_billing(plan),
+        "evolution": get_evolution_status(),
     }
     return jsonify(status)
 

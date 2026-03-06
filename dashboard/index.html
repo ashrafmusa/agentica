@@ -210,7 +210,7 @@
                         </button>
                         <button id="btn-evolve"
                             class="w-full bg-white/10 text-white border border-white/20 font-bold py-4 rounded-2xl hover:bg-white/20 transition-all">
-                            🚀 Self-Evolve (P25)
+                            🚀 Self-Evolve (Next: P26)
                         </button>
                         <button id="btn-audit"
                             class="w-full bg-white/10 text-white border border-white/20 font-bold py-4 rounded-2xl hover:bg-white/20 transition-all">
@@ -704,6 +704,13 @@
 
                 const st = document.getElementById('status-text');
                 if (st) st.innerText = "SYSTEM SYNCED";
+
+                // Evolution button label
+                const evolveBtn = document.getElementById('btn-evolve');
+                const nextPhase = data?.evolution?.next_phase;
+                if (evolveBtn && nextPhase) {
+                    evolveBtn.textContent = `🚀 Self-Evolve (Next: ${nextPhase})`;
+                }
 
                 // Billing / ROI
                 const billing = data.billing || {};
